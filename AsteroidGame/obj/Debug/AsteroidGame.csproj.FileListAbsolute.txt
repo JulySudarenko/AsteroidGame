@@ -1,0 +1,8 @@
+C:\Users\July\Desktop\GeekBrains\C#\AsteroidGame\AsteroidGame\bin\Debug\AsteroidGame.exe
+C:\Users\July\Desktop\GeekBrains\C#\AsteroidGame\AsteroidGame\bin\Debug\AsteroidGame.pdb
+C:\Users\July\Desktop\GeekBrains\C#\AsteroidGame\AsteroidGame\obj\Debug\AsteroidGame.csprojAssemblyReference.cache
+C:\Users\July\Desktop\GeekBrains\C#\AsteroidGame\AsteroidGame\obj\Debug\AsteroidGame.Properties.Resources.resources
+C:\Users\July\Desktop\GeekBrains\C#\AsteroidGame\AsteroidGame\obj\Debug\AsteroidGame.csproj.GenerateResource.cache
+C:\Users\July\Desktop\GeekBrains\C#\AsteroidGame\AsteroidGame\obj\Debug\AsteroidGame.csproj.CoreCompileInputs.cache
+C:\Users\July\Desktop\GeekBrains\C#\AsteroidGame\AsteroidGame\obj\Debug\AsteroidGame.exe
+C:\Users\July\Desktop\GeekBrains\C#\AsteroidGame\AsteroidGame\obj\Debug\AsteroidGame.pdb
