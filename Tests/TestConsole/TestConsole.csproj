@@ -43,8 +43,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Worker\FixPayWorker.cs" />
-    <Compile Include="Worker\HourlyPayWorker.cs" />
+    <Compile Include="Workers\FixPayWorker.cs" />
+    <Compile Include="Workers\HourlyPayWorker.cs" />
     <Compile Include="Logger\CombineLogger.cs" />
     <Compile Include="Logger\ConsoleLogger.cs" />
     <Compile Include="Logger\DebugOutputLogger.cs" />
@@ -58,7 +58,8 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Vector2D.cs" />
-    <Compile Include="Worker\Worker.cs" />
+    <Compile Include="Workers\JoinWorker.cs" />
+    <Compile Include="Workers\Worker.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

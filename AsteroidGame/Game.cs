@@ -4,13 +4,25 @@ using System.Drawing;
 
 namespace AsteroidGame
 {
+    /// <summary>Класс игровой логики</summary>
     internal static class Game
     {
+        /// <summary>Интервал времени таймера формирования кадра игры</summary>
+        private const int __TimerInterval = 100;
+
         private static BufferedGraphicsContext __Context;
         private static BufferedGraphics __Buffer;
+        
         private static VisualObject[] __GameObjects;
-        public static int Width { get; set; }
-        public static int Height { get; set; }
+        
+        /// <summary>Ширина игрового поля</summary>
+        public static int Width { get; private set; }
+        
+        /// <summary>Высота игрового поля</summary>
+        public static int Height { get; private set; }
+        
+        /// <summary>Инициализация игровой логики</summary>
+        /// <param name="form">Игровая форма</param>
         public static void Initialize(Form form)
         {
             Width = form.Width;
@@ -20,7 +32,7 @@ namespace AsteroidGame
             Graphics g = form.CreateGraphics();
             __Buffer = __Context.Allocate(g, new Rectangle(0, 0, Width, Height));
 
-            Timer timer = new Timer { Interval = 50 };
+            Timer timer = new Timer { Interval = __TimerInterval };
             timer.Tick += OnTimerTick;
             timer.Start();
         }
@@ -39,7 +51,7 @@ namespace AsteroidGame
 
             g.Clear(Color.Black);//очистить экран
             TextureBrush texture1 = new TextureBrush(Space1);
-            
+
             g.FillRectangle(texture1,
             new RectangleF(0, 0, 800, 600));
             //g.DrawRectangle(Pens.White, new Rectangle(50, 50, 200, 200));
@@ -66,7 +78,7 @@ namespace AsteroidGame
             {
                 __GameObjects[i] = new Star(
                     new Point(600, i * 20),
-                    new Point(- i, 0),
+                    new Point(-i, 0),
                     new Size(20, 20));
             }
         }

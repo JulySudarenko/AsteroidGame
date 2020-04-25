@@ -1,4 +1,6 @@
-﻿namespace TestConsole.Loggers
+﻿using System.Collections.Generic;
+
+namespace TestConsole.Loggers
 {
     internal class CombineLogger : Logger
     {
