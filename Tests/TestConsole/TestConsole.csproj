@@ -43,15 +43,35 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Worker\FixPayWorker.cs" />
+    <Compile Include="Worker\HourlyPayWorker.cs" />
+    <Compile Include="Logger\CombineLogger.cs" />
+    <Compile Include="Logger\ConsoleLogger.cs" />
+    <Compile Include="Logger\DebugOutputLogger.cs" />
+    <Compile Include="Logger\ILogger.cs" />
+    <Compile Include="Logger\Logger.cs" />
+    <Compile Include="Logger\TextFileLogger.cs" />
+    <Compile Include="Logger\TraceLogger.cs" />
     <Compile Include="Player.cs" />
-    <Compile Include="PrefixPrinter.cs" />
-    <Compile Include="Printer.cs" />
+    <Compile Include="Printer\PrefixPrinter.cs" />
+    <Compile Include="Printer\Printer.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Vector2D.cs" />
+    <Compile Include="Worker\Worker.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Connected Services\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\AsteroidGame\AsteroidGame.csproj">
+      <Project>{5307b57d-c7bf-40b9-b518-cad591dbc13d}</Project>
+      <Name>AsteroidGame</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
