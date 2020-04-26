@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Runtime.Serialization;
 using System.Windows.Forms;
 
+//July_Sudarenko
 namespace AsteroidGame
 {
     static class Program
@@ -14,7 +16,7 @@ namespace AsteroidGame
             Form game_form = new Form();
             //Screen.PrimaryScreen.WorkingArea.Height
 
-            const int game_form_width = 800;//именованые значения, константы
+            const int game_form_width = 1000;//именованые значения, константы
             const int game_form_height = 600;
 
             game_form.Width = game_form_width;
@@ -22,7 +24,15 @@ namespace AsteroidGame
 
             game_form.Show();
 
-            Game.Initialize(game_form);
+            try
+            {
+                Game.Initialize(game_form);
+            }
+            catch (ArgumentOutOfRangeException e)
+            {
+                System.Diagnostics.Debug.WriteLine("ArgumentOutOfRangeException", e);
+            }
+
             Game.Load();
             Game.Draw();
 

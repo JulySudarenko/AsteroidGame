@@ -1,4 +1,6 @@
-﻿namespace TestConsole.Workers
+﻿
+//July Sudarenko
+namespace TestConsole.Workers 
 {
     internal abstract class Worker
     {

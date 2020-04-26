@@ -1,10 +1,11 @@
-﻿using System;
-using System.Drawing;
+﻿using System.Drawing;
 
-namespace AsteroidGame
+namespace AsteroidGame.VisualObjects
 {
     class Star : VisualObject
     {
+        private static readonly Image Star1 = Image.FromFile("..\\..\\src\\Star2.png");
+
         public Star(Point Position, Point Direction, Size Size)
             : base(Position, Direction, Size)
         {
@@ -13,7 +14,7 @@ namespace AsteroidGame
 
         public override void Draw(Graphics g)
         {
-            Image Star1 = Image.FromFile("..\\Images\\Star6.png");
+            //g.RotateTransform(90);
             g.DrawImage(
                 Star1,
                 _Position.X, _Position.Y,

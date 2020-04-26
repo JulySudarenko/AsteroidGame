@@ -1,5 +1,6 @@
 ﻿using System;
 
+//July Sudarenko
 namespace TestConsole.Workers
 {
     internal class HourlyPayWorker : Worker

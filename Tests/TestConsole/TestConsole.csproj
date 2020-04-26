@@ -43,6 +43,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ComputeExceptionException.cs" />
+    <Compile Include="Student.cs" />
     <Compile Include="Workers\FixPayWorker.cs" />
     <Compile Include="Workers\HourlyPayWorker.cs" />
     <Compile Include="Logger\CombineLogger.cs" />
