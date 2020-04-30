@@ -36,6 +36,7 @@ namespace AsteroidGame
         /// <param name="form">Игровая форма</param>
         public static void Initialize(Form form)
         {
+
             Width = form.Width;
             Height = form.Height;
 
@@ -48,9 +49,9 @@ namespace AsteroidGame
             timer.Start();
 
             if (Width >= 1000 || Width < 0)
-                throw new ArgumentOutOfRangeException(nameof(Width), Width, "Ширина экрана должна быть не меньше 0 и не больше 1000");
+                throw new ArgumentOutOfRangeException("Ширина экрана должна быть не меньше 0 и не больше 1000");
             if (Height >= 1000 || Height < 0)
-                throw new ArgumentOutOfRangeException(nameof(Height), Height, "Высота экрана должна быть не меньше 0 и не больше 1000");
+                throw new ArgumentOutOfRangeException("Высота экрана должна быть не меньше 0 и не больше 1000");
 
         }
 

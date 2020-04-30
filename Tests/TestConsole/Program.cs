@@ -36,9 +36,14 @@ namespace TestConsole
             Worker w6 = new HourlyPayWorker("Волков", 400);
             Worker w7 = new HourlyPayWorker("Зайцев", 5500);
 
-
             w1.AveragePayment();
             w2.AveragePayment();
+
+            Worker[] workers = new Worker[7] { w1, w2, w3, w4, w5, w6, w7 };
+            Array.Sort(workers);
+
+            for (int i = 0; i < workers.Length; i++)
+                Console.WriteLine(workers[i].Name);
 
             JoinWorker w8 = new JoinWorker();
             w8.Add(w1);
@@ -48,11 +53,8 @@ namespace TestConsole
             w8.Add(w5);
             w8.Add(w6);
             w8.Add(w7);
-            
-            //Array.Sort(w8);
+
             w8.AveragePayment();
-
-
 
             #endregion
 

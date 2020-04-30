@@ -5,11 +5,11 @@ using System.Collections;
 //July Sudarenko
 namespace TestConsole.Workers
 {
-    internal class JoinWorker : Worker, IComparable, IEnumerator
+    internal class JoinWorker : Worker, IComparable
     {
-        private readonly List<Worker> _Workers = new List<Worker>();
+        private List<Worker> _Workers = new List<Worker>();
 
-        public object Current => throw new NotImplementedException();
+        public object Current => _Workers.Count;
 
         public JoinWorker(string Name, decimal Payment) : base(Name, Payment)
         {
@@ -17,7 +17,6 @@ namespace TestConsole.Workers
         public JoinWorker()
         {
         }
-
 
         public void Add(Worker worker)
         {
@@ -31,24 +30,6 @@ namespace TestConsole.Workers
                 Console.Write($"{w.Name}, {w.Payment}, ");
                 w.AveragePayment();
             }
-        }
-
-        public int CompareTo(object obj)
-        {
-            throw new NotImplementedException();
-            //JoinWorker _Workers = obj as JoinWorker;
-            //foreach (var i in _Workers)
-            //    return String.Compare();
-        }
-
-        public bool MoveNext()
-        {
-            throw new NotImplementedException();
-        }
-
-        public void Reset()
-        {
-            throw new NotImplementedException();
         }
     }
 }
