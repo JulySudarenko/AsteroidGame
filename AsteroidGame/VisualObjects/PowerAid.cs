@@ -20,7 +20,10 @@ namespace AsteroidGame.VisualObjects
         public Rectangle Rect => new Rectangle(_Position, _Size);
 
         public bool CheckCollision(ICollision obj) => Rect.IntersectsWith(obj.Rect);
-
+        public override void Draw(Graphics g)
+        {
+            g.DrawImage(_PowerAid1, _Position.X, _Position.Y, _Size.Width, _Size.Height);
+        }
         public override void Update()
         {
             _Position.X += _Direction.X;

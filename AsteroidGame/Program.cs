@@ -59,8 +59,9 @@ namespace AsteroidGame
 
             Game.Load();
             Game.Draw();
-
+           
             Application.Run(game_form);
+            //Application.Run(splashscreen_form);
 
         }
     }

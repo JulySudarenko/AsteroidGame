@@ -17,8 +17,6 @@ namespace AsteroidGame
 
         private static VisualObject[] __GameObjects;
 
-
-
         //private static SpaceShip __SpaceShip;
 
         /// <summary>Ширина игрового поля</summary>
@@ -28,7 +26,6 @@ namespace AsteroidGame
         public static int Height { get; private set; }
 
         private static readonly TextureBrush _Texture1 = new TextureBrush(Image.FromFile("..\\..\\src\\Space1.jpg"));
-
 
         public static Button btnGameStart;
         public static Button btnResults;
@@ -54,7 +51,7 @@ namespace AsteroidGame
             btnGameStart.Text = "Играть";
             btnGameStart.BackColor = Color.AliceBlue;
             //btnGameStart.Click = GameStart_Click();
-            btnGameStart.Visible = true;
+            //btnGameStart.Visible = true;
             form.Controls.Add(btnGameStart);
             btnResults = new Button();
             btnExit = new Button();
@@ -66,10 +63,10 @@ namespace AsteroidGame
             Timer timer = new Timer { Interval = __TimerInterval };
             timer.Tick += OnTimerTick;
             timer.Start();
-            timer.Enabled = false;
+            //timer.Enabled = false;
 
-            timer.Interval = 100000;
-            timer.Enabled = true;
+            //timer.Interval = 100000;
+            //timer.Enabled = true;
         }
 
         private static void OnTimerTick(object sender, EventArgs e)

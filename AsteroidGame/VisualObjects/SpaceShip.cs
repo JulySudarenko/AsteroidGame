@@ -49,6 +49,11 @@ namespace AsteroidGame.VisualObjects
                 ChangeEnergy(-asteroid.Power);
             }
 
+            if (is_collision && obj is PowerAid poweraid)
+            {
+                ChangeEnergy(+poweraid.MakeUpEnergy);
+            }
+
             return is_collision;
         }
 
@@ -56,7 +61,7 @@ namespace AsteroidGame.VisualObjects
         {
             _Energy += delta;
 
-            if (_Energy < 0)
+            if (_Energy < 0) 
                 Destroyed?.Invoke(this, EventArgs.Empty);
         }
 

@@ -81,8 +81,8 @@
   <ItemGroup />
   <ItemGroup>
     <Content Include="src\Ast1.png" />
+    <Content Include="src\Ast2.png" />
     <Content Include="src\Ast3.png" />
-    <Content Include="src\Ast2.jpg" />
     <Content Include="src\Ast5.jpg" />
     <Content Include="src\Ast4.jpg" />
     <Content Include="src\Ast6.png" />

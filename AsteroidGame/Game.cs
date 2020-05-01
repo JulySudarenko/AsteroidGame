@@ -24,6 +24,8 @@ namespace AsteroidGame
         private static PowerAid __PowerAid;
         private static Timer __Timer;
         private static int _Counter = 0;
+        private const int _ObjectSize = 25;
+        private const int _ObjectMaxSpeed = 20;
 
 
         /// <summary>Ширина игрового поля</summary>
@@ -68,7 +70,7 @@ namespace AsteroidGame
             switch (e.KeyCode)
             {
                 case Keys.ControlKey:
-                    __Bullet = new Bullet(__SpaceShip.Rect.Y + _SpaceShipSize/2 - 2);
+                    __Bullet = new Bullet(__SpaceShip.Rect.Y + _SpaceShipSize / 2 - 2);
                     break;
 
                 case Keys.Up:
@@ -94,7 +96,7 @@ namespace AsteroidGame
             g.Clear(Color.Black);//очистить экран
 
             g.FillRectangle(_Texture1, new RectangleF(0, 0, Width, Height));
-            
+
             //g.DrawRectangle(Pens.White, new Rectangle(50, 50, 200, 200));
             //g.FillEllipse(Brushes.Red, new Rectangle(100, 50, 70, 120));
 
@@ -105,6 +107,7 @@ namespace AsteroidGame
             //if (__Bullet != null)
             //    __Bullet.Draw(g);
             __Bullet?.Draw(g);
+            __PowerAid.Draw(g);
 
             if (!__Timer.Enabled) return;
             __Buffer.Render();
@@ -128,30 +131,31 @@ namespace AsteroidGame
             //}
             #endregion
 
+            var rnd = new Random();
+
             for (var i = 0; i < 12; i++)
             {
                 game_objects.Add(new Star(
-                    new Point(300, (int)(i * 50)),
+                    //new Point(300, (int)(i * 50)),
+                    new Point(rnd.Next(60, Width), rnd.Next(0, Height)),
                     new Point(-i, 0),
                     new Size(40, 30)));
             }
 
-            var rnd = new Random();
-
             const int asteroid_count = 10;
-            const int asteroid_size = 25;
-            const int asteroid_max_speed = 20;
+            //const int asteroid_size = 25;
+            //const int asteroid_max_speed = 20;
 
             for (var i = 0; i < asteroid_count; i++)
                 game_objects.Add(new Asteroid(
-                    new Point(rnd.Next(0, Width), rnd.Next(0, Height)),
-                    new Point(-rnd.Next(0, asteroid_max_speed), 0),
-                    asteroid_size));
+                    new Point(rnd.Next(60, Width), rnd.Next(0, Height)),
+                    new Point(-rnd.Next(0, _ObjectMaxSpeed), 0),
+                    _ObjectSize));
 
-            game_objects.Add(
-                new Asteroid(new Point(Width / 2, 200),
-                new Point(-asteroid_max_speed, 0),
-                asteroid_size));
+            //game_objects.Add(
+            //    new Asteroid(new Point(Width / 2, 200),
+            //    new Point(-asteroid_max_speed, 0),
+            //    asteroid_size));
 
             //__Bullet = new Bullet(200);
             __GameObjects = game_objects.ToArray();
@@ -160,6 +164,11 @@ namespace AsteroidGame
                 new Point(20, 400),
                 new Point(20, 20),
                 _SpaceShipSize);
+
+            __PowerAid = new PowerAid(
+                new Point(rnd.Next(0, Width), rnd.Next(0, Height)),
+                new Point(-rnd.Next(0, _ObjectMaxSpeed), 10),
+                _ObjectSize);
 
             __SpaceShip.Destroyed += OnShipDestroyed;
 
@@ -188,11 +197,11 @@ namespace AsteroidGame
             __Timer.Stop();
             var g = __Buffer.Graphics;
             g.Clear(Color.DarkBlue);
-            g.DrawString("Game over!!!", new Font(FontFamily.GenericSerif, 60, FontStyle.Bold), Brushes.Red, 200, 100);
+            g.DrawString($"Game over!!!\nResult\n{_Counter} points", new Font(FontFamily.GenericSerif, 60, FontStyle.Bold), Brushes.Red, 100, 100);
             __Buffer.Render();
         }
 
-        /// <summary> Task 3
+        /// <summary> Task 3 Lesson 2
         /// Сделать так, чтобы при столкновениях пули с астероидом 
         /// они регенерировались в разных концах экрана.
         /// </summary>
@@ -202,6 +211,7 @@ namespace AsteroidGame
                 game_object.Update();
 
             __Bullet?.Update();
+            __PowerAid.Update();
 
             //if (__Bullet is null || __Bullet.Rect.Left > Width)
             //if (__Bullet.Rect.Left > Width)
@@ -217,22 +227,30 @@ namespace AsteroidGame
                 {
                     var collision_object = (ICollision)obj;
 
-
                     __SpaceShip.CheckCollision(collision_object);
+                    if (__PowerAid.CheckCollision(collision_object))
+                    {
+                        var rnd = new Random();
+                        __PowerAid = new PowerAid(
+                            new Point(rnd.Next(0, Width), rnd.Next(0, Height)), 
+                            new Point(-rnd.Next(0, _ObjectMaxSpeed), 10), 
+                            _ObjectSize);
+                    }
                     if (__Bullet != null)
                     {
                         if (__Bullet.CheckCollision(collision_object))
                         {
+                            _Counter++;
                             var rnd = new Random();
                             //__Bullet = new Bullet(rnd.Next(0, Height));
 
-                            const int asteroid_size = 40;//будет отличаться размером
-                            const int asteroid_max_speed = 20;
+                            //const int asteroid_size = 40;
+                            //const int asteroid_max_speed = 20;
                             __GameObjects[i] = new Asteroid(
                                 // поскольку пуля всегда летит слева на право, астероид будет перенесен вправо.
                                 new Point(rnd.Next(Width - 50, Width), rnd.Next(0, Height)),
-                                new Point(-rnd.Next(0, asteroid_max_speed), 0),
-                                asteroid_size);
+                                new Point(-rnd.Next(0, _ObjectMaxSpeed), 0),
+                                _ObjectSize + 15);//будет отличаться размером
                             System.Media.SystemSounds.Beep.Play();
                         }
                     }
