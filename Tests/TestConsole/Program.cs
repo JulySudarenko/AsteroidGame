@@ -11,7 +11,7 @@ namespace TestConsole
     {
         static void Main(string[] args)
         {
-            #region Task 1
+            #region Task 1 Lesson 2
             ///<summary>
             ///1.Построить три класса(базовый и 2 потомка), описывающих двух работников: 
             ///с почасовой оплатой(один из потомков) 

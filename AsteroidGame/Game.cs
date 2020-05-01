@@ -7,6 +7,7 @@ using AsteroidGame.VisualObjects;
 //July_Sudarenko
 namespace AsteroidGame
 {
+
     /// <summary>Класс игровой логики</summary>
     internal static class Game
     {
@@ -18,7 +19,12 @@ namespace AsteroidGame
 
         private static VisualObject[] __GameObjects;
         private static Bullet __Bullet;
-        //private static SpaceShip __SpaceShip;
+        private const int _SpaceShipSize = 50;
+        private static SpaceShip __SpaceShip;
+        private static PowerAid __PowerAid;
+        private static Timer __Timer;
+        private static int _Counter = 0;
+
 
         /// <summary>Ширина игрового поля</summary>
         public static int Width { get; private set; }
@@ -26,9 +32,9 @@ namespace AsteroidGame
         /// <summary>Высота игрового поля</summary>
         public static int Height { get; private set; }
 
-        private static readonly Image Space1 = Image.FromFile("..\\..\\src\\Space1.jpg");
+        private static readonly TextureBrush _Texture1 = new TextureBrush(Image.FromFile("..\\..\\src\\Space1.jpg"));
 
-        /// <summary>Task 4
+        /// <summary>Task 4 Lesson 2
         /// Сделать проверку на задание размера экрана в классе Game. 
         /// Если высота или ширина (Width, Height) больше 1000 или принимает отрицательное значение, 
         /// выбросить исключение ArgumentOutOfRangeException(). 
@@ -44,15 +50,35 @@ namespace AsteroidGame
             Graphics g = form.CreateGraphics();
             __Buffer = __Context.Allocate(g, new Rectangle(0, 0, Width, Height));
 
-            Timer timer = new Timer { Interval = __TimerInterval };
-            timer.Tick += OnTimerTick;
-            timer.Start();
+            __Timer = new Timer { Interval = __TimerInterval };
+            __Timer.Tick += OnTimerTick;
+            __Timer.Start();
+
+            form.KeyDown += OnFormKeyDown;
 
             if (Width >= 1000 || Width < 0)
                 throw new ArgumentOutOfRangeException("Ширина экрана должна быть не меньше 0 и не больше 1000");
             if (Height >= 1000 || Height < 0)
                 throw new ArgumentOutOfRangeException("Высота экрана должна быть не меньше 0 и не больше 1000");
 
+        }
+
+        private static void OnFormKeyDown(object sender, KeyEventArgs e)
+        {
+            switch (e.KeyCode)
+            {
+                case Keys.ControlKey:
+                    __Bullet = new Bullet(__SpaceShip.Rect.Y + _SpaceShipSize/2 - 2);
+                    break;
+
+                case Keys.Up:
+                    __SpaceShip.MoveUp();
+                    break;
+
+                case Keys.Down:
+                    __SpaceShip.MoveDown();
+                    break;
+            }
         }
 
         private static void OnTimerTick(object sender, EventArgs e)
@@ -66,24 +92,29 @@ namespace AsteroidGame
             Graphics g = __Buffer.Graphics;
 
             g.Clear(Color.Black);//очистить экран
-            TextureBrush texture1 = new TextureBrush(Space1);
 
-            g.FillRectangle(texture1,
-            new RectangleF(0, 0, Width, Height));
+            g.FillRectangle(_Texture1, new RectangleF(0, 0, Width, Height));
+            
             //g.DrawRectangle(Pens.White, new Rectangle(50, 50, 200, 200));
             //g.FillEllipse(Brushes.Red, new Rectangle(100, 50, 70, 120));
 
             foreach (var game_object in __GameObjects)
                 game_object.Draw(g);
 
+            __SpaceShip.Draw(g);
             //if (__Bullet != null)
             //    __Bullet.Draw(g);
-            //__Bullet?.Draw(g);
-            __Bullet.Draw(g);
+            __Bullet?.Draw(g);
 
-            __Buffer.Render();//перенос изображения на экран
+            if (!__Timer.Enabled) return;
+            __Buffer.Render();
         }
-
+        /// <summary> Tasks 2, 4 Lesson 3
+        /// 2. Доработать игру «Астероиды». 
+        /// а) Добавить ведение журнала в консоль с помощью делегатов;
+        /// б) *Добавить это и в файл.
+        /// 4. Добавить подсчет очков за сбитые астероиды.
+        /// </summary>
         public static void Load()
         {
             List<VisualObject> game_objects = new List<VisualObject>();
@@ -122,8 +153,15 @@ namespace AsteroidGame
                 new Point(-asteroid_max_speed, 0),
                 asteroid_size));
 
-            __Bullet = new Bullet(200);
+            //__Bullet = new Bullet(200);
             __GameObjects = game_objects.ToArray();
+
+            __SpaceShip = new SpaceShip(
+                new Point(20, 400),
+                new Point(20, 20),
+                _SpaceShipSize);
+
+            __SpaceShip.Destroyed += OnShipDestroyed;
 
             #region Array VirtualObject
             //__GameObjects = new VisualObject[30];
@@ -145,6 +183,15 @@ namespace AsteroidGame
             #endregion
         }
 
+        private static void OnShipDestroyed(object sender, EventArgs e)
+        {
+            __Timer.Stop();
+            var g = __Buffer.Graphics;
+            g.Clear(Color.DarkBlue);
+            g.DrawString("Game over!!!", new Font(FontFamily.GenericSerif, 60, FontStyle.Bold), Brushes.Red, 200, 100);
+            __Buffer.Render();
+        }
+
         /// <summary> Task 3
         /// Сделать так, чтобы при столкновениях пули с астероидом 
         /// они регенерировались в разных концах экрана.
@@ -154,14 +201,14 @@ namespace AsteroidGame
             foreach (var game_object in __GameObjects)
                 game_object.Update();
 
-            __Bullet.Update();
+            __Bullet?.Update();
 
             //if (__Bullet is null || __Bullet.Rect.Left > Width)
-            if (__Bullet.Rect.Left > Width)
-            {
-                var rnd = new Random();
-                __Bullet = new Bullet(rnd.Next(0, Height));
-            }
+            //if (__Bullet.Rect.Left > Width)
+            //{
+            //    var rnd = new Random();
+            //    __Bullet = new Bullet(rnd.Next(0, Height));
+            //}
 
             for (var i = 0; i < __GameObjects.Length; i++)
             {
@@ -169,21 +216,25 @@ namespace AsteroidGame
                 if (obj is ICollision)
                 {
                     var collision_object = (ICollision)obj;
-                    //if (__Bullet != null)
 
-                    if (__Bullet.CheckCollision(collision_object))
+
+                    __SpaceShip.CheckCollision(collision_object);
+                    if (__Bullet != null)
                     {
-                        var rnd = new Random();
-                        __Bullet = new Bullet(rnd.Next(0, Height));
+                        if (__Bullet.CheckCollision(collision_object))
+                        {
+                            var rnd = new Random();
+                            //__Bullet = new Bullet(rnd.Next(0, Height));
 
-                        const int asteroid_size = 40;//будет отличаться размером
-                        const int asteroid_max_speed = 20;
-                        __GameObjects[i] = new Asteroid(
-                            // поскольку пуля всегда летит слева на право, астероид будет перенесен вправо.
-                            new Point(rnd.Next(Width - 50, Width), rnd.Next(0, Height)),
-                            new Point(-rnd.Next(0, asteroid_max_speed), 0),
-                            asteroid_size);
-                        System.Media.SystemSounds.Beep.Play();
+                            const int asteroid_size = 40;//будет отличаться размером
+                            const int asteroid_max_speed = 20;
+                            __GameObjects[i] = new Asteroid(
+                                // поскольку пуля всегда летит слева на право, астероид будет перенесен вправо.
+                                new Point(rnd.Next(Width - 50, Width), rnd.Next(0, Height)),
+                                new Point(-rnd.Next(0, asteroid_max_speed), 0),
+                                asteroid_size);
+                            System.Media.SystemSounds.Beep.Play();
+                        }
                     }
                 }
             }

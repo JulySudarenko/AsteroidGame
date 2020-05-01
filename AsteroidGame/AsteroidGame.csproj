@@ -55,6 +55,7 @@
     <Compile Include="VisualObjects\Bullet.cs" />
     <Compile Include="VisualObjects\CollisionObject.cs" />
     <Compile Include="VisualObjects\ImageObject.cs" />
+    <Compile Include="VisualObjects\PowerAid.cs" />
     <Compile Include="VisualObjects\SpaceShip.cs" />
     <Compile Include="VisualObjects\Star.cs" />
     <Compile Include="VisualObjects\VisualObject.cs" />
@@ -89,6 +90,7 @@
     <Content Include="src\Ast9.jpg" />
     <Content Include="src\Ast8.jpg" />
     <Content Include="src\Space1.jpg" />
+    <Content Include="src\SpaceShip1.png" />
     <Content Include="src\Star1.png" />
     <Content Include="src\Star2.png" />
   </ItemGroup>

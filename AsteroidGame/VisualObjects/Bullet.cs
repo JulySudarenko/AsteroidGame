@@ -10,7 +10,7 @@ namespace AsteroidGame.VisualObjects
         private const int __BulletSpeed = 15;
 
         public Bullet(int Position)
-            : base(new Point(0, Position), Point.Empty, new Size(__BulletSizeX, __BulletSizeY))
+            : base(new Point(45, Position), Point.Empty, new Size(__BulletSizeX, __BulletSizeY))
         {
         }
 

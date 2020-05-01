@@ -1,16 +1,19 @@
 ﻿using System.Drawing;
 
+//July Sudarenko
 namespace AsteroidGame.VisualObjects
 {
-    internal class Asteroid : ImageObject, ICollision
+    /// <summary> Task 3 Lesson 3
+    /// Разработать аптечки, которые добавляют энергию.
+    /// </summary>
+    internal class PowerAid : ImageObject, ICollision
     {
-        private static readonly Image __Ast1 = Image.FromFile("..\\..\\src\\Ast1.png");
+        private static readonly Image _PowerAid1 = Image.FromFile("..\\..\\src\\PowerAid3.png");
 
-        public int Power { get; set; } = 3;
+        public int MakeUpEnergy { get; set; } = 3;
 
-        public Asteroid(Point Position, Point Direction, int ImageSize)
-            //: base(Position, Direction, new Size(ImageSize, ImageSize), __Image)
-            : base(Position, Direction, new Size(ImageSize, ImageSize), __Ast1)// Properties.Resources.Ast)
+        public PowerAid(Point Position, Point Direction, int ImageSize)
+            : base(Position, Direction, new Size(ImageSize, ImageSize), _PowerAid1)
         {
         }
 
