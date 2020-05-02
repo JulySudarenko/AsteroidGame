@@ -143,30 +143,30 @@ namespace TestConsole
 
             #region Интерфейсы, Исключения
 
-            Trace.Listeners.Add(new TextWriterTraceListener("logger.log"));
-            Trace.Listeners.Add(new XmlWriterTraceListener("logger.log.xml"));
+            //Trace.Listeners.Add(new TextWriterTraceListener("logger.log"));
+            //Trace.Listeners.Add(new XmlWriterTraceListener("logger.log.xml"));
 
-            CombineLogger combine_log = new CombineLogger();
-            combine_log.Add(new ConsoleLogger());
-            combine_log.Add(new DebugOutputLogger());
-            combine_log.Add(new TraceLogger());
-            combine_log.Add(new TextFileLogger("new_log.log"));
+            //CombineLogger combine_log = new CombineLogger();
+            //combine_log.Add(new ConsoleLogger());
+            //combine_log.Add(new DebugOutputLogger());
+            //combine_log.Add(new TraceLogger());
+            //combine_log.Add(new TextFileLogger("new_log.log"));
 
-            combine_log.LogInformation("Message1");
-            combine_log.LogWarning("Info message");
-            combine_log.LogError("Error message");
+            //combine_log.LogInformation("Message1");
+            //combine_log.LogWarning("Info message");
+            //combine_log.LogError("Error message");
 
-            Student student = new Student { Name = "Иванов" };
+            //Student student = new Student { Name = "Иванов" };
 
-            ILogger log = combine_log;
-            ComputeLongDataValue(100, student);
+            //ILogger log = combine_log;
+            //ComputeLongDataValue(100, student);
 
-            Console.WriteLine("Программа завершена!");
+            //Console.WriteLine("Программа завершена!");
 
-            using (var file_logger = new TextFileLogger("another.log"))
-            {
-                file_logger.LogInformation("123");
-            }
+            //using (var file_logger = new TextFileLogger("another.log"))
+            //{
+            //    file_logger.LogInformation("123");
+            //}
 
             //try
             //{

@@ -3,11 +3,11 @@ using System.Windows.Forms;
 using System.Drawing;
 using System.Collections.Generic;
 using AsteroidGame.VisualObjects;
+using AsteroidGame.GameLoggers;
 
 //July_Sudarenko
 namespace AsteroidGame
 {
-
     /// <summary>Класс игровой логики</summary>
     internal static class Game
     {
@@ -19,13 +19,21 @@ namespace AsteroidGame
 
         private static VisualObject[] __GameObjects;
         private static Bullet __Bullet;
+
         private const int _SpaceShipSize = 50;
         private static SpaceShip __SpaceShip;
+
         private static PowerAid __PowerAid;
         private static Timer __Timer;
+
+        /// <summary> Task 4 Lesson 3 Добавить подсчет очков за сбитые астероиды./// </summary>
         private static int _Counter = 0;
+
         private const int _ObjectSize = 25;
         private const int _ObjectMaxSpeed = 20;
+
+        private static GameLogger __GameLog = new GameLogger();
+        private static GameLogger __GameLogFile = new TextFileGameLog("gamelog.log");
 
 
         /// <summary>Ширина игрового поля</summary>
@@ -44,13 +52,16 @@ namespace AsteroidGame
         /// <param name="form">Игровая форма</param>
         public static void Initialize(Form form)
         {
-
             Width = form.Width;
             Height = form.Height;
 
             __Context = BufferedGraphicsManager.Current;
             Graphics g = form.CreateGraphics();
             __Buffer = __Context.Allocate(g, new Rectangle(0, 0, Width, Height));
+
+            __GameLog.LogGameStart();
+            __GameLogFile.LogGameStart();
+
 
             __Timer = new Timer { Interval = __TimerInterval };
             __Timer.Tick += OnTimerTick;
@@ -70,7 +81,7 @@ namespace AsteroidGame
             switch (e.KeyCode)
             {
                 case Keys.ControlKey:
-                    __Bullet = new Bullet(__SpaceShip.Rect.Y + _SpaceShipSize / 2 - 2);
+                    __Bullet = new Bullet(__SpaceShip.Rect.Y + _SpaceShipSize / 2 - 4);
                     break;
 
                 case Keys.Up:
@@ -112,12 +123,7 @@ namespace AsteroidGame
             if (!__Timer.Enabled) return;
             __Buffer.Render();
         }
-        /// <summary> Tasks 2, 4 Lesson 3
-        /// 2. Доработать игру «Астероиды». 
-        /// а) Добавить ведение журнала в консоль с помощью делегатов;
-        /// б) *Добавить это и в файл.
-        /// 4. Добавить подсчет очков за сбитые астероиды.
-        /// </summary>
+
         public static void Load()
         {
             List<VisualObject> game_objects = new List<VisualObject>();
@@ -195,6 +201,10 @@ namespace AsteroidGame
         private static void OnShipDestroyed(object sender, EventArgs e)
         {
             __Timer.Stop();
+
+            __GameLog.LogGameOver($"Игра окончена. Счет: {_Counter}");
+            __GameLogFile.LogGameOver($"Игра окончена. Счет: {_Counter}");
+
             var g = __Buffer.Graphics;
             g.Clear(Color.DarkBlue);
             g.DrawString($"Game over!!!\nResult\n{_Counter} points", new Font(FontFamily.GenericSerif, 60, FontStyle.Bold), Brushes.Red, 100, 100);
@@ -227,20 +237,33 @@ namespace AsteroidGame
                 {
                     var collision_object = (ICollision)obj;
 
-                    __SpaceShip.CheckCollision(collision_object);
+                    if (__SpaceShip.CheckCollision(collision_object))
+                    {
+                        __GameLog.LogEnergyDown("Столкновение корабля с астероидом");
+                        __GameLogFile.LogEnergyDown("Столкновение корабля с астероидом");
+                    }
+
                     if (__PowerAid.CheckCollision(collision_object))
                     {
+                        __GameLog.LogEnergyUp("Восстановление энергии");
+                        __GameLogFile.LogEnergyUp("Восстановление энергии");
+
+
                         var rnd = new Random();
                         __PowerAid = new PowerAid(
-                            new Point(rnd.Next(0, Width), rnd.Next(0, Height)), 
-                            new Point(-rnd.Next(0, _ObjectMaxSpeed), 10), 
+                            new Point(rnd.Next(0, Width), rnd.Next(0, Height)),
+                            new Point(-rnd.Next(0, _ObjectMaxSpeed), 10),
                             _ObjectSize);
                     }
+
                     if (__Bullet != null)
                     {
                         if (__Bullet.CheckCollision(collision_object))
                         {
                             _Counter++;
+                            __GameLog.LogAsteroidShotDown($"Попадание в астероид. Счёт: {_Counter}.");
+                            __GameLogFile.LogAsteroidShotDown($"Попадание в астероид. Счёт: {_Counter}.");
+
                             var rnd = new Random();
                             //__Bullet = new Bullet(rnd.Next(0, Height));
 
