@@ -20,29 +20,29 @@ namespace AsteroidGame.GameLoggers
             Console.WriteLine(Message);
         }
 
-        public void LogGameStart()
+        public void LogGameStart(int Count)
         {
-            GameLog($"{DateTime.Now:s}[info]:{"Начало игры"}");
+            GameLog(string.Format("{0:s}[info]:{1}{2}", DateTime.Now, "Начало игры. Счёт: ", Count));
         }
          
-        public void LogAsteroidShotDown(string Message)
+        public void LogAsteroidShotDown(int Count)
         {
-            GameLog($"{DateTime.Now:s}[info]:{Message}");
+            GameLog(string.Format("{0:s}[info]:{1}{2}", DateTime.Now, "Попадание в астероид. Счёт: ", Count));
         }
 
-        public void LogEnergyDown(string Message)
+        public void LogEnergyDown(int Count)
         {
-            GameLog($"{DateTime.Now:s}[info]:{Message}");
+            GameLog(string.Format("{0:s}[info]:{1}{2}", DateTime.Now, "Столкновение корабля с астероидом. Счёт: ", Count));
         }
 
-        public void LogEnergyUp(string Message)
+        public void LogEnergyUp(int Count)
         {
-            GameLog($"{DateTime.Now:s}[info]:{Message}");
+            GameLog(string.Format("{0:s}[info]:{1}{2}", DateTime.Now, "Пополенение энергии. Счёт: ", Count));
         }
 
-        public void LogGameOver(string Message)
+        public void LogGameOver(int Count)
         {
-            GameLog(string.Format("{0:s}[info]:{1}", DateTime.Now, Message));
+            GameLog(string.Format("{0:s}[info]:{1}{2}", DateTime.Now, "Игра окончена. Счёт: ", Count));
         }
 
         public virtual void Flush() { }

@@ -1,14 +1,16 @@
 ﻿using System.IO;
+using System;
 
 //July_Sudarenko
 namespace AsteroidGame.GameLoggers
+
 {
     /// <summary> Tasks 2 Lesson 3
     /// Доработать игру «Астероиды». 
     /// а) Добавить ведение журнала в консоль с помощью делегатов;
     /// б) *Добавить это и в файл.
     /// </summary>
-    internal class TextFileGameLog : GameLogger
+    internal class TextFileGameLog : GameLogger, IDisposable
     {
         private readonly TextWriter _Writer;
 
@@ -19,7 +21,7 @@ namespace AsteroidGame.GameLoggers
         }
 
         private int _Counter;
-        public override void GameLog(string Message) 
+        public override void GameLog(string Message)
         {
             _Writer.WriteLine("{0}>{1}", _Counter++, Message);
         }

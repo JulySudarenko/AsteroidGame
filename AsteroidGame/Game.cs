@@ -8,6 +8,10 @@ using AsteroidGame.GameLoggers;
 //July_Sudarenko
 namespace AsteroidGame
 {
+    internal delegate void Log(int count);
+
+    //internal delegate void Logs(Log, int count);
+
     /// <summary>Класс игровой логики</summary>
     internal static class Game
     {
@@ -33,8 +37,12 @@ namespace AsteroidGame
         private const int _ObjectMaxSpeed = 20;
 
         private static GameLogger __GameLog = new GameLogger();
-        private static GameLogger __GameLogFile = new TextFileGameLog("gamelog.log");
+        private static GameLogger __GameLogFile = new TextFileGameLog("game.log");
 
+        //private static Log _LogStart = __GameLog.LogGameStart;
+        //_LogStart +=__GameLogFile
+
+            //Log log_start = 
 
         /// <summary>Ширина игрового поля</summary>
         public static int Width { get; private set; }
@@ -59,9 +67,10 @@ namespace AsteroidGame
             Graphics g = form.CreateGraphics();
             __Buffer = __Context.Allocate(g, new Rectangle(0, 0, Width, Height));
 
-            __GameLog.LogGameStart();
-            __GameLogFile.LogGameStart();
-
+            __GameLog.LogGameStart(_Counter);
+            __GameLogFile.LogGameStart(_Counter);
+            __GameLog.Flush();
+            __GameLogFile.Flush();
 
             __Timer = new Timer { Interval = __TimerInterval };
             __Timer.Tick += OnTimerTick;
@@ -202,8 +211,10 @@ namespace AsteroidGame
         {
             __Timer.Stop();
 
-            __GameLog.LogGameOver($"Игра окончена. Счет: {_Counter}");
-            __GameLogFile.LogGameOver($"Игра окончена. Счет: {_Counter}");
+            __GameLog.LogGameOver(_Counter);
+            __GameLogFile.LogGameOver(_Counter);
+            __GameLog.Flush();
+            __GameLogFile.Flush();
 
             var g = __Buffer.Graphics;
             g.Clear(Color.DarkBlue);
@@ -239,14 +250,18 @@ namespace AsteroidGame
 
                     if (__SpaceShip.CheckCollision(collision_object))
                     {
-                        __GameLog.LogEnergyDown("Столкновение корабля с астероидом");
-                        __GameLogFile.LogEnergyDown("Столкновение корабля с астероидом");
+                        __GameLog.LogEnergyDown(_Counter);
+                        __GameLogFile.LogEnergyDown(_Counter);
+                        __GameLog.Flush();
+                        __GameLogFile.Flush();
                     }
 
                     if (__PowerAid.CheckCollision(collision_object))
                     {
-                        __GameLog.LogEnergyUp("Восстановление энергии");
-                        __GameLogFile.LogEnergyUp("Восстановление энергии");
+                        __GameLog.LogEnergyUp(_Counter);
+                        __GameLogFile.LogEnergyUp(_Counter);
+                        __GameLog.Flush();
+                        __GameLogFile.Flush();
 
 
                         var rnd = new Random();
@@ -261,8 +276,10 @@ namespace AsteroidGame
                         if (__Bullet.CheckCollision(collision_object))
                         {
                             _Counter++;
-                            __GameLog.LogAsteroidShotDown($"Попадание в астероид. Счёт: {_Counter}.");
-                            __GameLogFile.LogAsteroidShotDown($"Попадание в астероид. Счёт: {_Counter}.");
+                            __GameLog.LogAsteroidShotDown(_Counter);
+                            //__GameLogFile.LogAsteroidShotDown($"Попадание в астероид. Счёт: {_Counter}.");
+                            __GameLog.Flush();
+                            //__GameLogFile.Flush();
 
                             var rnd = new Random();
                             //__Bullet = new Bullet(rnd.Next(0, Height));
