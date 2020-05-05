@@ -1,4 +1,5 @@
 ﻿using System.Drawing;
+using System;
 
 namespace AsteroidGame.VisualObjects
 {
@@ -20,13 +21,22 @@ namespace AsteroidGame.VisualObjects
 
         public override void Update()
         {
-            _Position.X += _Direction.X;
-            _Position.Y += _Direction.Y;
+            var rnd = new Random();
 
+            _Position.X += _Direction.X;
             if ((_Position.X < 0) || (_Position.X > Game.Width))
-                _Direction.X *= -1;
-            if ((_Position.Y < 0) || (_Position.Y > Game.Height))
-                _Direction.Y *= -1;
+            {
+                _Position.X = rnd.Next(Game.Width - 50, Game.Width);
+                _Position.Y = rnd.Next(rnd.Next(0, Game.Height));
+            }
+
+            //_Position.X += _Direction.X;
+            //_Position.Y += _Direction.Y;
+
+            //if ((_Position.X < 0) || (_Position.X > Game.Width))
+            //    _Direction.X *= -1;
+            //if ((_Position.Y < 0) || (_Position.Y > Game.Height))
+            //    _Direction.Y *= -1;
         }
     }
 }
