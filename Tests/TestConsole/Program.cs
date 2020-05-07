@@ -7,6 +7,7 @@ using System.Linq;
 using System.IO;
 using AngleSharp.Common;
 using System.Collections;
+using static TestConsole.Program;
 
 
 //July_Sudarenko
@@ -327,19 +328,36 @@ namespace TestConsole
             ///в) *используя Linq.
             ///</summary>
 
-
             //IEnumerable<Adress> Adresses = GetAdresses(__NamesFile12);
             var Adresses = GetAdresses(__NamesFile12).ToList();
 
             Adresses.Sort((s1, s2) => StringComparer.Ordinal.Compare(s1.Street, s2.Street));
+            //foreach (var adress in Adresses)
+            //    Console.WriteLine(adress);
+
 
 
             Quantity(Adresses);
 
             List<Street> Streets = new List<Street>();
-       
-           
-            ///<summary> Task 3 Lesson 4
+
+            Streets.Add(new Street(Adresses[0].Street, 1));
+            for (int i = 0; i < Adresses.Count - 1; i++) 
+            {
+                if (Adresses[i].Street != Adresses[i + 1].Street)
+                    Streets.Add(new Street(Adresses[i + 1].Street, 1));
+                else
+                    Streets[Streets.Count - 1].Counter++;
+            }
+
+            foreach (var s in Streets)
+                Console.WriteLine(s);
+
+
+
+
+            #region Task 3 Lesson 4
+            ///<summary> 
             ///* Дан фрагмент программы:
             ///а) Свернуть обращение к OrderBy с использованием лямбда-выражения $.
             ///б) *Развернуть обращение к OrderBy с использованием делегата Predicate<T>.
@@ -360,6 +378,7 @@ namespace TestConsole
             {
                 Console.WriteLine("{0} - {1}", pair.Key, pair.Value);
             }
+            #endregion
 
             Console.ReadLine();
         }
@@ -457,15 +476,34 @@ namespace TestConsole
         #endregion
     }
 
-    struct Street
+    internal class Street : IComparable<string>, IEquatable<string>
     {
-        string St { get; set; }
-        int Count { get; set; }
+        public string St { get; set; }
+        public int Counter { get; set; }
 
-        private Street(string St, int Count)
+        public Street(string St, int Counter)
         {
             this.St = St;
-            this.Count = Count;
+            this.Counter = Counter;
+        }
+        public Street(string St)
+        {
+            this.St = St;
+            this.Counter = 1;
+        }
+
+        public override string ToString() => $"{Counter} - {St}";
+
+        public int CompareTo(string other)
+        {
+            return St.CompareTo(other);
+        }
+
+        public bool Equals(string other)
+        {
+            if (other is null) return false;
+
+            return St == other;
         }
     }
 }
