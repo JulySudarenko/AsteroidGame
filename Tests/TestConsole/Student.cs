@@ -7,23 +7,6 @@ using System.Threading.Tasks;
 
 namespace TestConsole
 {
-    #region Student + Logger Lesson 2 Интерфейс
-    //internal class Student : ILogger
-    //{
-    //    public int Id { get; set; }
-    //    public string Name { get; set; }
-    //    public string Surname { get; set; }
-    //    public string Patronimyc { get; set; }
-
-    //    public int GroupId { get; set; }
-
-    //    public void Log(string Message)
-    //    {
-    //        Console.WriteLine("Студент {0} пишет в журнал: {1}", Name, Message); ;
-    //    }
-    //}
-    #endregion
-
     interface IEntity
     {
         int Id { get; set; }
