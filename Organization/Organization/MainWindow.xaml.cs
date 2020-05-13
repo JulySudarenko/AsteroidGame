@@ -8,17 +8,18 @@ using System.Collections.ObjectModel;
 using Organization;
 
 //July Sudarenko
-/// <summary>
-/// Создать WPF-приложение для ведения списка сотрудников компании.
-/// 1. Создать сущности Employee и Department и заполнить списки сущностей начальными данными.
-/// 2. Для списка сотрудников и списка департаментов предусмотреть визуализацию(отображение). 
+/// <summary> Lesson_6
+/// Изменить WPF-приложение для ведения списка сотрудников компании (из урока 5), 
+/// используя связывание данных, ListView, ObservableCollection и INotifyPropertyChanged.
+/// 1.	Создать сущности Employee и Department и заполнить списки сущностей начальными данными.
+/// 2.	Для списка сотрудников и списка департаментов предусмотреть визуализацию(отображение). 
 /// Это можно сделать, например, с использованием ComboBox или ListView.
-/// 3. Предусмотреть редактирование сотрудников и департаментов.
+/// 3.	Предусмотреть редактирование сотрудников и департаментов.
 /// Должна быть возможность изменить департамент у сотрудника.
 /// Список департаментов для выбора можно выводить в ComboBox, 
 /// и все это можно выводить на дополнительной форме.
-/// 4. Предусмотреть возможность создания новых сотрудников и департаментов.
-/// Реализовать это либо на форме редактирования, либо сделать новую форму.
+/// 4.	Предусмотреть возможность создания новых сотрудников и департаментов.
+/// Реализовать данную возможность либо на форме редактирования, либо сделать новую форму.
 /// </summary>
 namespace Organization
 {
@@ -34,8 +35,8 @@ namespace Organization
             FillList();
         }
 
-        public static readonly List<Department> AllDepartments = CreateDepartment("..\\..\\..\\Department.txt");
-        public static readonly List<Employee> AllEmployees = FillDepartment("..\\..\\..\\Employee.txt", AllDepartments);
+        public static readonly List<Department> AllDepartments = CreateDepartment("..\\..\\Data\\Department.txt");
+        public static readonly List<Employee> AllEmployees = FillDepartment("..\\..\\Data\\Employee.txt", AllDepartments);
 
         void FillList()
         {
