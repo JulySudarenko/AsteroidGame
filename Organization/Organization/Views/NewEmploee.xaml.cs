@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using Organization;
-
+using Organization.Models;
 
 namespace Organization
 {
@@ -16,14 +16,13 @@ namespace Organization
     public partial class NewEmploee : Window
     {
 
-        public NewEmploee(List<Employee> AllEmployees, List<Department> AllDepartments)
+        public NewEmploee(List<Employee> AllEmployees, List<string> AllDepartments)
         {
             InitializeComponent();
             FillComboDox(AllDepartments);
         }
 
-
-        void FillComboDox(List<Department> AllDepartments)
+        void FillComboDox(List<string> AllDepartments)
         {
             DepComboBox.ItemsSource = AllDepartments;
         }

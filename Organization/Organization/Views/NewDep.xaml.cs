@@ -11,6 +11,8 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using Organization.Models;
+//using Organization.ViewModels;
 
 namespace Organization
 {
@@ -19,7 +21,7 @@ namespace Organization
     /// </summary>
     public partial class NewDep : Window
     {
-        public NewDep(List<Department> AllDepartments)
+        public NewDep(List<string> AllDepartments)
         {
             InitializeComponent();
         }
