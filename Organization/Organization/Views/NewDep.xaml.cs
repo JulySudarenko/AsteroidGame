@@ -1,18 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
-using Organization.Models;
-//using Organization.ViewModels;
+using Organization.ViewModels;
 
 namespace Organization
 {
@@ -21,14 +9,13 @@ namespace Organization
     /// </summary>
     public partial class NewDep : Window
     {
-        public NewDep(List<string> AllDepartments)
+        public NewDep()
         {
             InitializeComponent();
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            //AllDepartments.Add(new Department(AllDepartments.Count, ))
             MessageBox.Show("Подразделение добавлено");
         }
     }

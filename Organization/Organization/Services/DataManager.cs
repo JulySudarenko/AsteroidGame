@@ -39,7 +39,6 @@ namespace Organization.Services
         private static List<Employee> CreateOrg(string FileName1, List<string> list)
         {
             List<Employee> employees = new List<Employee>();
-            List<Department> departments = new List<Department>();
 
             if(list.Count == 0) return employees;
 

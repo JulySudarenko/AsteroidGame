@@ -47,7 +47,7 @@ namespace Organization
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            Organization.NewDep NewDep = new Organization.NewDep(AllDepartments);
+            Organization.NewDep NewDep = new Organization.NewDep();
             NewDep.Show();
             NewDep.Owner = this;
         }
