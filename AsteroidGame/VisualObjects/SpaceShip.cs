@@ -11,7 +11,7 @@ namespace AsteroidGame.VisualObjects
     {
         public event EventHandler Destroyed;
 
-        private int _Energy = 20;
+        private int _Energy { get; set; } = 20;
 
         public int Energy => _Energy;
 
@@ -31,13 +31,6 @@ namespace AsteroidGame.VisualObjects
 
         public override void Update() 
         {
-            _Position.X += _Direction.X;
-            _Position.Y += _Direction.Y;
-
-            if ((_Position.X < 0) || (_Position.X > Game.Width))
-                _Direction.X *= -1;
-            if ((_Position.Y < 0) || (_Position.Y > Game.Height))
-                _Direction.Y *= -1;
         }
 
         public bool CheckCollision(ICollision obj)
@@ -56,6 +49,8 @@ namespace AsteroidGame.VisualObjects
 
             return is_collision;
         }
+
+
 
         public void ChangeEnergy(int delta)
         {

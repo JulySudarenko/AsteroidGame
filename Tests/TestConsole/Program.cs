@@ -1,12 +1,14 @@
 ﻿using System;
-using System.IO;
 using System.Collections.Generic;
 using System.Globalization;
 using TestConsole.Loggers;
-using System.Diagnostics;
-using System.Runtime.Serialization;
 using TestConsole.Service;
-using TestConsole.Workers;
+using System.Linq;
+using System.IO;
+using AngleSharp.Common;
+using System.Collections;
+using static TestConsole.Program;
+
 
 //July_Sudarenko
 namespace TestConsole
@@ -21,315 +23,488 @@ namespace TestConsole
             Console.WriteLine("Студент {0} был отчислен!", student.Surname);
         }
 
+        private const string __NamesFile = "..\\..\\Names.txt";
+        private const string __NamesFile12 = "..\\..\\covid-19-addresses[2020-04-12].txt";
+      
         static void Main(string[] args)
         {
             #region Lesson 3 Шаблоны, методы расширения,  
 
-            var decanat = new Decanat();
-             var rnd = new Random();           
-            decanat.SubscribeToAdd(RateStudent);
-            decanat.SubscribeToAdd(PrintStudent);
+            //var decanat = new Decanat();
+            //var rnd = new Random();
+            //decanat.SubscribeToAdd(RateStudent);
+            //decanat.SubscribeToAdd(PrintStudent);
 
-            decanat.ItemRemoved += OnStudentRemoved;
-
-
-
-            for (var i = 1; i <= 100; i++)
-                decanat.Add(new Student
-                {
-                    Name = $"Name {i}",
-                    Surname = $"Surname {i}",
-                    Patronymic = $"Patronymic {i}",
-                    //Ratings = rnd.GetValues(rnd.Next(20, 30), 3, 6)
-                });
-
-            //foreach (var student in decanat)
-            //{
-            //    Console.WriteLine(student.Name);
-            //}
-
-            var student_to_remove = decanat[0];
-
-            decanat.Remove(student_to_remove);
+            //decanat.ItemRemoved += OnStudentRemoved;
 
 
-            var random_student = new Student { Surname = rnd.GetValue<string>("Иванов", "Петров", "Сидоров") };
 
-            //var random_rating = rnd.GetValue<int>(2, 3, 4, 5);
+            //for (var i = 1; i <= 100; i++)
+            //    decanat.Add(new Student
+            //    {
+            //        Name = $"Name {i}",
+            //        Surname = $"Surname {i}",
+            //        Patronymic = $"Patronymic {i}",
+            //        //Ratings = rnd.GetValues(rnd.Next(20, 30), 3, 6)
+            //    });
 
-            decanat.SaveToFile("decanat.csv");
+            ////foreach (var student in decanat)
+            ////{
+            ////    Console.WriteLine(student.Name);
+            ////}
 
-            var decanat2 = new Decanat();
-            decanat2.LoadFromFile("decanat.csv");
+            //var student_to_remove = decanat[0];
 
-            StringProcessor str_rocessor = new StringProcessor(GetStringLength);
+            //decanat.Remove(student_to_remove);
 
-            var length = str_rocessor("Hello World");
 
-            //StudentProcessor process = new StudentProcessor(PrintStudent);
+            //var random_student = new Student { Surname = rnd.GetValue<string>("Иванов", "Петров", "Сидоров") };
 
-            //process(random_student);
+            ////var random_rating = rnd.GetValue<int>(2, 3, 4, 5);
 
-            //process = RateStudent;
+            //decanat.SaveToFile("decanat.csv");
 
-            //process(random_student);
+            //var decanat2 = new Decanat();
+            //decanat2.LoadFromFile("decanat.csv");
 
-            //process = PrintStudent;
-            //process(random_student);
+            //StringProcessor str_rocessor = new StringProcessor(GetStringLength);
 
+            //var length = str_rocessor("Hello World");
+
+            ////StudentProcessor process = new StudentProcessor(PrintStudent);
+
+            ////process(random_student);
+
+            ////process = RateStudent;
+
+            ////process(random_student);
+
+            ////process = PrintStudent;
+            ////process(random_student);
+
+            ////ProcessStudents(decanat2, PrintStudent);
+            //ProcessStudents(decanat2, RateStudent);
             //ProcessStudents(decanat2, PrintStudent);
-            ProcessStudents(decanat2, RateStudent);
-            ProcessStudents(decanat2, PrintStudent);
 
-            var decanat3 = new Decanat();
+            //var decanat3 = new Decanat();
 
-            ProcessStudents(decanat2, decanat3.Add);
+            //ProcessStudents(decanat2, decanat3.Add);
 
-            Console.ReadLine();
+            //Console.ReadLine();
 
             #endregion
 
-            #region Task 1 Lesson 2
-            ///<summary>
-            ///1.Построить три класса(базовый и 2 потомка), описывающих двух работников: 
-            ///с почасовой оплатой(один из потомков) 
-            ///и фиксированной оплатой(второй потомок).
-            ///а) Описать в базовом классе абстрактный метод для расчета среднемесячной заработной платы.
-            ///Для «повременщиков» формула для расчета такова: 
-            ///«среднемесячная заработная плата = 20.8 * 8 * почасовая ставка». 
-            ///Для работников с фиксированной оплатой: 
-            ///«среднемесячная заработная плата = фиксированная месячная оплата».
-            ///б) Создать на базе абстрактного класса массив сотрудников и заполнить его.
-            ///в) *Реализовать интерфейсы для возможности сортировки массива, 
-            ///используя Array.Sort().
-            ///г) *Создать класс, содержащий массив сотрудников, 
-            ///и реализовать возможность вывода данных с использованием foreach.
-            /// </summary>
+            #region Lesson 4 Списки
 
-            Worker w1 = new FixPayWorker("Иванов", 120000);
-            Worker w2 = new HourlyPayWorker("Петров", 600);
-            Worker w3 = new FixPayWorker("Сидоров", 110000);
-            Worker w4 = new FixPayWorker("Васечкин", 100000);
-            Worker w5 = new HourlyPayWorker("Пупкин", 500);
-            Worker w6 = new HourlyPayWorker("Волков", 400);
-            Worker w7 = new HourlyPayWorker("Зайцев", 5500);
+            //    //foreach(var student in GetStudents(__NamesFile))
+            //    //    Console.WriteLine(student.Surname + " " + student.Name + " " + student.Patronimyc);
 
-            w1.AveragePayment();
-            w2.AveragePayment();
+            //    //List<Student> students_list = new List<Student>(100);
+            //    //students_list.Count
+            //    //students_list.Capacity = students_list.Count;
 
-            Worker[] workers = new Worker[7] { w1, w2, w3, w4, w5, w6, w7 };
-            Array.Sort(workers);
+            //    //var id = 1;
+            //    //foreach (var student in GetStudents(__NamesFile))
+            //    //{
+            //    //    student.Id = id++;
+            //    //    students_list.Add(student);
+            //    //}
 
-            for (int i = 0; i < workers.Length; i++)
-                Console.WriteLine(workers[i].Name);
+            //    //var student_2 = students_list[2];
+            //    //students_list.Remove(student_2);
+            //    //students_list.RemoveAt(4);
 
-            JoinWorker w8 = new JoinWorker();
-            w8.Add(w1);
-            w8.Add(w2);
-            w8.Add(w3);
-            w8.Add(w4);
-            w8.Add(w5);
-            w8.Add(w6);
-            w8.Add(w7);
+            //    //var index = students_list.IndexOf(student_2);
 
-            w8.AveragePayment();
+            //    //students_list.BinarySearch();
 
-            #endregion
+            //    //students_list.Clear();
 
-            #region Logger Абстракции
-            //Logger log = new TextFileLogger("text.log");
-            //Logger log = new ConsoleLogger();
-            //Logger log = new DebugOutputLogger();
-            //Logger log = new TraceLogger();
+            //    // Упорядочивание студентов по возрастанию фамилии
+            //    //students_list.Sort((s1, s2) => StringComparer.Ordinal.Compare(s1.Surname, s2.Surname));
 
-            //Trace.Listeners.Add(new TextWriterTraceListener("logger.log"));
-            //Trace.Listeners.Add(new XmlWriterTraceListener("logger.log.xml"));
+            //    //students_list.Sort((s1, s2) => StringComparer.Ordinal.Compare(s2.Name, s1.Name));
 
-            //CombineLogger log = new CombineLogger();
-            //log.Add(new TraceLogger());
-            //log.Add(new ConsoleLogger());
-            //log.Add(new DebugOutputLogger());
-            //log.Add(new TextFileLogger("new_log.log"));
+            //    //students_list.Clear();
 
-            //log.LogInformation("Message1");
-            //log.LogWarning("Info message");
-            //log.LogError("Error message");
+            //    //students_list.AddRange(GetStudents(__NamesFile));
 
-            //log.Flush();
+            //    //Student[] students_array = students_list.ToArray();
 
-            #endregion
+            //    //var new_students_list = new List<Student>(students_array);
+            //    //var new_students_list2 = new List<Student>(GetStudents(__NamesFile));
 
-            #region Player
-            //Player player1 = new Player();
-            //player1.Name = "Иванов";
-            //player1.Birthday = new DateTime(1974, 12, 21, 0, 0, 0);
 
-            //Player player1 = new Player("Empty", new DateTime(1974, 12, 21));
+            //    //var list = new ArrayList(new_students_list2);
 
-            //Console.Write("Введите фамилию > ");
-            //player1.Name = Console.ReadLine();
+            //    //list.Add(42);
+            //    //list.Add("Hello World!");
 
-            //Console.WriteLine(player1.Name);
-            #endregion
+            //    ////list.OfType<Student>();
+            //    //list.Cast<Student>();
 
-            #region Vector implicit
-            //Vector2D v1 = new Vector2D(5, 7);
-            //Vector2D v2 = new Vector2D(-7, 2);
+            //    //foreach (var student in list.OfType<Student>())
+            //    //{
+            //    //    Console.WriteLine(student);
+            //    //}
 
-            //Vector2D v3 = v1 + v2;
-            //Vector2D v4 = v1 - v2;
+            //    //var new_students_list3 = GetStudents(__NamesFile).ToList();
+            //    //var new_students_array3 = GetStudents(__NamesFile).ToArray();
 
-            //Vector2D v5 = v3 + 3.14159265358979;
+            //    //foreach (var student in new_students_list2.ToArray())
+            //    //{
+            //    //    if (student.Surname.StartsWith("А"))
+            //    //        new_students_list2.Remove(student);
+            //    //}
 
-            #endregion
+            //    //if (new_students_list2.Exists(student => student.Surname.StartsWith("А")))
+            //    //{
+            //    //    Console.WriteLine("В списке есть хотя бы один студент, фамилия которого начинается на А");
+            //    //}
+            //    //else
+            //    //{
+            //    //    Console.WriteLine("Всех на А отчислили...");
+            //    //}
 
-            #region CultureInfo
+            //    //Stack<Student> students_stack = new Stack<Student>(100);
+            //    //foreach (var student in GetStudents(__NamesFile))
+            //    //{
+            //    //    students_stack.Push(student);
+            //    //}
 
-            //CultureInfo ru = new CultureInfo("ru-ru");
-            //CultureInfo en_us = new CultureInfo("en-us");
-            //CultureInfo invariant = CultureInfo.InvariantCulture;
-            //CultureInfo current = CultureInfo.CurrentCulture; //узнать какая установлена
-            //CultureInfo currentUI = CultureInfo.CurrentUICulture;
+            //    //var last_student = students_stack.Pop();
 
-            //double pi = double.Parse("3,1415", ru);
+            //    //while (students_stack.Count > 0)
+            //    //{
+            //    //    Console.WriteLine(students_stack.Pop());
+            //    //}
 
-            //int i = (int)pi;
+            //    //Queue<Student> students_queue = new Queue<Student>(100);
+            //    //while (students_stack.Count > 0)
+            //    //    students_queue.Enqueue(students_stack.Pop());
 
-            //Console.WriteLine(pi);
+            //    //while (students_queue.Count > 0)
+            //    //    Console.WriteLine(students_queue.Dequeue());
 
-            //double length = v4;
-            #endregion
+            //    //Dictionary<string, List<Student>> surename_students = new Dictionary<string, List<Student>>();
 
-            #region Printer Наследование
-            //Printer printer = new Printer();
-            //PrefixPrinter prefix_printer = new PrefixPrinter();
-            //prefix_printer.Prefix = "!!!!!-----!!!!!";
+            //    //surename_students.Add("qwe", new List<Student>());
 
-            //prefix_printer.Print("QWE");
+            //    //var dict_data = surename_students.ToArray();
 
-            //printer.Print("Hello World!");
-            //prefix_printer.PrintData(3.14);
+            //    //foreach (var student in GetStudents(__NamesFile))
+            //    //{
+            //    //    var surname = student.Surname;
 
-            //printer.Print("123");
+            //    //    if(surename_students.ContainsKey(surname))
+            //    //        surename_students[surname].Add(student);
+            //    //    else
+            //    //    {
+            //    //        var new_list = new List<Student>();
+            //    //        new_list.Add(student);
+            //    //        surename_students.Add(surname, new_list);
+            //    //    }
+            //    //}
 
-            //printer = prefix_printer;
-            //Printer printer1 = new PrefixPrinter();
+            //    //Console.WriteLine(new string('-', Console.BufferWidth));
 
-            //printer.Print("345");
-            //printer1.Print("678");
-            #endregion
+            //    //if (surename_students.TryGetValue("Хвостовский", out var students))
+            //    //    foreach (var student in students)
+            //    //        Console.WriteLine(student);
 
-            #region Интерфейсы, Исключения
+            //    //IEnumerable<Student> students = GetStudents(__NamesFile);
 
-            //Trace.Listeners.Add(new TextWriterTraceListener("logger.log"));
-            //Trace.Listeners.Add(new XmlWriterTraceListener("logger.log.xml"));
+            //    //students = students.Where(student => student.Surname.StartsWith("А"));
 
-            //CombineLogger combine_log = new CombineLogger();
-            //combine_log.Add(new ConsoleLogger());
-            //combine_log.Add(new DebugOutputLogger());
-            //combine_log.Add(new TraceLogger());
-            //combine_log.Add(new TextFileLogger("new_log.log"));
+            //    //var student_names = students.Select(student => student.Name);
 
-            //combine_log.LogInformation("Message1");
-            //combine_log.LogWarning("Info message");
-            //combine_log.LogError("Error message");
+            //    //var student_surnames_names = students.Select(s => $"{s.Surname} {s.Name}");
 
-            //Student student = new Student { Name = "Иванов" };
+            //    //foreach (var student in student_surnames_names)
+            //    //{
+            //    //    Console.WriteLine(student);
+            //    //}
 
-            //ILogger log = combine_log;
-            //ComputeLongDataValue(100, student);
+            //    //var ilyushkin = students.First(s => s.Surname == "Илюшкин1");
+            //    //var ilyushkin = Enumerable.Empty<Student>().First();
+            //    //var ilyushkin = students.FirstOrDefault(s => s.Surname == "Илюшкин1");
 
-            //Console.WriteLine("Программа завершена!");
+            //    var rated_studetns = GetStudents(__NamesFile).ToArray();
+            //    //rated_studetns.OrderBy(s => s.Surname)
 
-            //using (var file_logger = new TextFileLogger("another.log"))
+            //    var top_students = rated_studetns.Where(s => s.AverageRating >= 4);
+            //    var bad_studets = rated_studetns.Where(s => s.AverageRating <= 3);
+
+            //    var grouped_students = rated_studetns.GroupBy(s => s.GroupId);
+
+            //    var surnames_groups = rated_studetns.GroupBy(s => s.Surname);
+
+            //    foreach (var surnames_group in surnames_groups)
+            //    {
+            //        Console.WriteLine("Все студенты с фамилией {0}", surnames_group.Key);
+            //        foreach (var student in surnames_group)
+            //            Console.WriteLine("\t{0}", student);
+            //    }
+
+            //    var groups = GetGroups(10).ToArray();
+
+            //    var groupped_students = rated_studetns.Join(
+            //        groups,
+            //        student => student.GroupId,
+            //        group => group.Id,
+            //        (student, group) => new
+            //        {
+            //            Student = student,
+            //            Group = group
+            //        }
+            //    );
+
+            //    var groupped_students2 = rated_studetns.Join(
+            //        groups,
+            //        student => student.GroupId,
+            //        group => group.Id,
+            //        (student, group) => (Studend: student, Group: group)
+            //    );
+
+            //    foreach (var groupped_student in groupped_students)
+            //    {
+            //        Console.WriteLine("Студент {0} группы {1}",
+            //            groupped_student.Student,
+            //            groupped_student.Group.Name);
+            //    }
+
+            //    foreach (var (Student, Group) in groupped_students2)
+            //    {
+            //        Console.WriteLine("Студент {0} группы {1}",
+            //            Student,
+            //            Group.Name);
+            //    }
+
+            //    Console.ReadLine();
+
+
+
+            //}
+            //private static IEnumerable<Group> GetGroups(int count)
             //{
-            //    file_logger.LogInformation("123");
+            //    foreach (var index in Enumerable.Range(1, count))
+            //        yield return new Group { Id = index, Name = $"Группа {index}" };
             //}
 
-            //try
+            //private static IEnumerable<Student> GetStudents(string FileName)
             //{
-            //    ComputeLongDataValue(600, log);
-            //}
-            //catch (ArgumentNullException error)
-            //{
-            //    combine_log.LogError(error.ToString());
-            //    combine_log.LogError(error.Message);
-            //    throw new ComputeExceptionException("Ошибка в значении входного параметра", error);
+            //    //yield break;
+            //    var rnd = new Random();
+            //    //File.AppendAllText();
 
-            //}
-            //catch (InvalidOperationException)
-            //{
-            //    Console.WriteLine("Число итераций слишком велико!");
-            //    throw;
-            //}
-            //catch (Exception error)
-            //{
-            //    combine_log.LogError(error.ToString());
-            //    combine_log.LogError(error.Message);
-            //    throw new ComputeExceptionException("Произошла неизвестная ошибка при вычислении", error);
-            //}
+            //    using (var file = File.OpenText(FileName))
+            //    {
+            //        while (!file.EndOfStream)
+            //        {
+            //            var line = file.ReadLine();
 
+            //            if (string.IsNullOrWhiteSpace(line)) continue;
 
-            //combine_log.Flush();
+            //            var components = line.Split(' ');
+            //            if (components.Length != 3) continue;
+
+            //            var student = new Student();
+            //            student.Surname = components[0];
+            //            student.Name = components[1];
+            //            student.Patronymic = components[2];
+            //            student.Ratings = rnd.GetValues(20, 2, 6);
+            //            student.GroupId = rnd.Next(1, 11);
+            //            yield return student;
+            //        }
+            //    }
+
             #endregion
 
-            Console.ReadLine();
-        }
-        #region Lesson 2 Интерфейсы, Исключения
-        private static double ComputeLongDataValue(int Count, ILogger Log)
-        {
-            if (Log is null)
-                //throw new ArgumentNullException("Log");
-                throw new ArgumentNullException(nameof(Log));
+            ///<summary> Task 2 Lesson 4 
+            ///2.Дана коллекция List<T>, требуется подсчитать, 
+            ///сколько раз каждый элемент встречается в данной коллекции:
+            ///а) для целых чисел;
+            ///б) *для обобщенной коллекции;
+            ///в) *используя Linq.
+            ///</summary>
 
-            if (Count <= 0)
-                throw new ArgumentOutOfRangeException(nameof(Count), Count, "Число итераций обязано быть больше нуля!");
+            //IEnumerable<Adress> Adresses = GetAdresses(__NamesFile12);
+            var Adresses = GetAdresses(__NamesFile12).ToList();
 
-            var result = 0;
-            for (var i = 0; i < Count; i++)
+            Adresses.Sort((s1, s2) => StringComparer.Ordinal.Compare(s1.Street, s2.Street));
+            //foreach (var adress in Adresses)
+            //    Console.WriteLine(adress);
+
+
+
+            Quantity(Adresses);
+
+            List<Street> Streets = new List<Street>();
+
+            Streets.Add(new Street(Adresses[0].Street, 1));
+            for (int i = 0; i < Adresses.Count - 1; i++) 
             {
-                result++;
-                Log.Log($"Вычисление итерации {i}");
-                System.Threading.Thread.Sleep(10);
-
-                if (i > 500)
-                    throw new InvalidOperationException("Число итераций оказалось слишком большим!",
-                        new ArgumentException($"Число итераций было указано больше 500 и равно {Count}", nameof(Count)));
+                if (Adresses[i].Street != Adresses[i + 1].Street)
+                    Streets.Add(new Street(Adresses[i + 1].Street, 1));
+                else
+                    Streets[Streets.Count - 1].Counter++;
             }
 
-            return result;
+            foreach (var s in Streets)
+                Console.WriteLine(s);
+
+
+
+
+            #region Task 3 Lesson 4
+            ///<summary> 
+            ///* Дан фрагмент программы:
+            ///а) Свернуть обращение к OrderBy с использованием лямбда-выражения $.
+            ///б) *Развернуть обращение к OrderBy с использованием делегата Predicate<T>.
+            ///</summary>
+
+            Dictionary<string, int> dict = new Dictionary<string, int>()
+                {
+                    {"four",4 },
+                    {"two",2 },
+                    {"one",1 },
+                    {"three",3 },
+                };
+
+            //var d = dict.OrderBy(delegate (KeyValuePair<string, int> pair) { return pair.Value; });
+            var d = dict.OrderBy(pair => pair.Value);
+
+            foreach (var pair in d)
+            {
+                Console.WriteLine("{0} - {1}", pair.Key, pair.Value);
+            }
+            #endregion
+
+            Console.ReadLine();
+        }
+
+        private static void Quantity(List<Adress> adresses)
+        {
+            int count = 1;
+            for (int i = 0; i < adresses.Count; i++)
+            {
+                if (i == adresses.Count - 1)
+                {
+                    Console.WriteLine($"{count} - {adresses[i].Street}");
+                    break;
+                }
+                if (adresses[i].Street != adresses[i + 1].Street)
+                {
+                    Console.WriteLine($"{count} - {adresses[i].Street}");
+                    count = 1;
+                }
+                if (adresses[i].Street == adresses[i + 1].Street)
+                    count++;
+            }
+        }
+
+        private static IEnumerable<Adress> GetAdresses(string FileName)
+        {
+            //StreamReader sr = new StreamReader(FileName);
+            using (var file = File.OpenText(FileName))
+            {
+                while (!file.EndOfStream)
+                {
+                    var line = file.ReadLine();
+
+                    if (string.IsNullOrWhiteSpace(line)) continue;
+
+                    var components = line.Split(';');
+                    if (components.Length != 3) continue;
+
+                    var adress = new Adress();
+                    adress.Date = DateTime.Parse(components[0]);
+                    adress.Street = components[1];
+                    adress.House = components[2];
+
+                    yield return adress;
+                }
+            }
+        }
+
+        #region Lesson 4 Списки
+
+        internal class Group
+        {
+            public int Id { get; set; }
+            public string Name { get; set; }
+            public override string ToString() => $"[{Id}] {Name}";
+        }
+
+        internal class Adress : IComparable<Adress>, IEquatable<Adress>, IEquatable<string>
+        {
+            public DateTime Date { get; set; }
+            public string Street { get; set; }
+            public string House { get; set; }
+
+            public Adress(DateTime Date, string Street, string House)
+            {
+                this.Date = Date;
+                this.Street = Street;
+                this.House = House;
+            }
+
+            public Adress()
+            { }
+
+            public override string ToString() => $"{Date} {Street} {House}";
+
+            public int CompareTo(Adress other)
+            {
+                return Street.CompareTo(other.Street);
+            }
+
+            public bool Equals(Adress other)
+            {
+                if (other is null) return false;
+
+                return Street == other.Street;
+            }
+
+            public bool Equals(string other)
+            {
+                if (other is null) return false;
+
+                return Street == other;
+            }
         }
         #endregion
+    }
 
-        #region Lesson 3 Делегаты
-        private static int GetStringLength(string str)
-        //int GetStringLength(string str)
+    internal class Street : IComparable<string>, IEquatable<string>
+    {
+        public string St { get; set; }
+        public int Counter { get; set; }
+
+        public Street(string St, int Counter)
         {
-            return str.Length;
+            this.St = St;
+            this.Counter = Counter;
+        }
+        public Street(string St)
+        {
+            this.St = St;
+            this.Counter = 1;
         }
 
-        private static void PrintStudent(Student student)
-        //void PrintStudent(Student student)
+        public override string ToString() => $"{Counter} - {St}";
+
+        public int CompareTo(string other)
         {
-            Console.WriteLine("[{0}]{1} {2} {3} - {4}",
-                student.Id,
-                student.Surname, student.Name, student.Patronymic, student.AverageRating);
+            return St.CompareTo(other);
         }
 
-        private static void RateStudent(Student student)
-        //void RateStudent(Student student)
+        public bool Equals(string other)
         {
-            var rnd = new Random();
-            student.Ratings.AddRange(rnd.GetValues(5, 2, 6));
-        }
+            if (other is null) return false;
 
-        private static void ProcessStudents(IEnumerable<Student> students, StudentProcessor Processor)
-        //void ProcessStudents(IEnumerable<Student> students, StudentProcessor Processor)
-        {
-            foreach (var student in students)
-                Processor(student);
+            return St == other;
         }
-        #endregion
     }
 }
 
