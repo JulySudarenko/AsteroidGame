@@ -7,7 +7,6 @@ namespace TestConsole.Workers
     internal class ArrayWorker : Worker
     {
         private Worker[] _ArrayWorker;
-        private static int position = -1;
 
         public ArrayWorker(int n)
         {
@@ -17,7 +16,7 @@ namespace TestConsole.Workers
         public ArrayWorker()
         {
         }
-        
+
         public int Length => _ArrayWorker.Length;
 
         public Worker this[int i] => _ArrayWorker[i];

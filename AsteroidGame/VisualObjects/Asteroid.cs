@@ -1,11 +1,12 @@
 ﻿using System.Drawing;
 
-
 namespace AsteroidGame.VisualObjects
 {
     internal class Asteroid : ImageObject, ICollision
     {
         private static readonly Image __Ast1 = Image.FromFile("..\\..\\src\\Ast1.png");
+
+        public int Power { get; set; } = 3;
 
         public Asteroid(Point Position, Point Direction, int ImageSize)
             //: base(Position, Direction, new Size(ImageSize, ImageSize), __Image)

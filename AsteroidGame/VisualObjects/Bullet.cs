@@ -5,20 +5,22 @@ namespace AsteroidGame.VisualObjects
 {
     internal class Bullet : CollisionObject
     {
-        private const int __BulletSizeX = 20;
-        private const int __BulletSizeY = 5;
+        private static readonly Image _Bullet1 = Image.FromFile("..\\..\\src\\Bullet1.png");
+        private const int __BulletSizeX = 30;
+        private const int __BulletSizeY = 10;
         private const int __BulletSpeed = 15;
 
         public Bullet(int Position)
-            : base(new Point(0, Position), Point.Empty, new Size(__BulletSizeX, __BulletSizeY))
+            : base(new Point(45, Position), Point.Empty, new Size(__BulletSizeX, __BulletSizeY))
         {
         }
 
         public override void Draw(Graphics g)
         {
             var rect = new Rectangle(_Position, _Size);
-            g.FillEllipse(Brushes.Red, rect);
-            g.DrawEllipse(Pens.White, rect);
+            g.DrawImage(_Bullet1, rect);
+            //g.FillEllipse(Brushes.Red, rect);
+            //g.DrawEllipse(Pens.White, rect);
         }
 
         public override void Update()

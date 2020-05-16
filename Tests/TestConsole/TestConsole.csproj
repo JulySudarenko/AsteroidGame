@@ -44,6 +44,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ComputeExceptionException.cs" />
+    <Compile Include="Decanat.cs" />
+    <Compile Include="Service\RandomExtensions.cs" />
+    <Compile Include="Storage.cs" />
     <Compile Include="Student.cs" />
     <Compile Include="Workers\ArrayWorker.cs" />
     <Compile Include="Workers\FixPayWorker.cs" />

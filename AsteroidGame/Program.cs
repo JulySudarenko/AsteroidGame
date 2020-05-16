@@ -40,7 +40,7 @@ namespace AsteroidGame
             Form game_form = new Form();
             //Screen.PrimaryScreen.WorkingArea.Height
 
-            const int game_form_width = 1000;//именованые значения, константы
+            const int game_form_width = 800;//именованые значения, константы
             const int game_form_height = 600;
 
             game_form.Width = game_form_width;
@@ -59,8 +59,9 @@ namespace AsteroidGame
 
             Game.Load();
             Game.Draw();
-
+           
             Application.Run(game_form);
+            //Application.Run(splashscreen_form);
 
         }
     }

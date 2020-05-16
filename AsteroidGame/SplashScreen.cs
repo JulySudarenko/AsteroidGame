@@ -25,13 +25,13 @@ namespace AsteroidGame
         /// <summary>Высота игрового поля</summary>
         public static int Height { get; private set; }
 
-        private static readonly Image Space1 = Image.FromFile("..\\..\\src\\Space1.jpg");
+        private static readonly TextureBrush _Texture1 = new TextureBrush(Image.FromFile("..\\..\\src\\Space1.jpg"));
 
         public static Button btnGameStart;
         public static Button btnResults;
         public static Button btnExit;
 
-        const int ButtonWidth = 200;
+        const int ButtonWidth = 100;
         const int ButtonHeight = 40;
 
         public void GameStart_Click(object sender, System.EventArgs e)
@@ -46,12 +46,13 @@ namespace AsteroidGame
             btnGameStart = new Button();
             btnGameStart.Width = ButtonWidth;
             btnGameStart.Height = ButtonHeight;
-            btnGameStart.Top = 100;
-            btnGameStart.Left = 100;
+            btnGameStart.Top = 20;
+            btnGameStart.Left = 20;
             btnGameStart.Text = "Играть";
             btnGameStart.BackColor = Color.AliceBlue;
             //btnGameStart.Click = GameStart_Click();
-            btnGameStart.Visible = true;
+            //btnGameStart.Visible = true;
+            form.Controls.Add(btnGameStart);
             btnResults = new Button();
             btnExit = new Button();
 
@@ -62,17 +63,16 @@ namespace AsteroidGame
             Timer timer = new Timer { Interval = __TimerInterval };
             timer.Tick += OnTimerTick;
             timer.Start();
-            timer.Enabled = false;
+            //timer.Enabled = false;
 
-            timer.Interval = 100000;
-            timer.Enabled = true;
+            //timer.Interval = 100000;
+            //timer.Enabled = true;
         }
 
         private static void OnTimerTick(object sender, EventArgs e)
         {
             Update();
             Draw();
-
         }
 
         public static void Draw()
@@ -80,19 +80,12 @@ namespace AsteroidGame
             Graphics g = __Buffer.Graphics;
 
             g.Clear(Color.Black);//очистить экран
-            TextureBrush texture1 = new TextureBrush(Space1);
-
-            g.FillRectangle(texture1,
-            new RectangleF(0, 0, Width, Height));
-
-
+            g.FillRectangle(_Texture1, new RectangleF(0, 0, Width, Height));
 
             foreach (var game_object in __GameObjects)
                 game_object.Draw(g);
 
             __Buffer.Render();//перенос изображения на экран
-
-
         }
 
         public static void Load()
