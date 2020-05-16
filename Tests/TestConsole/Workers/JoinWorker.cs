@@ -14,6 +14,7 @@ namespace TestConsole.Workers
         public JoinWorker(string Name, decimal Payment) : base(Name, Payment)
         {
         }
+
         public JoinWorker()
         {
         }

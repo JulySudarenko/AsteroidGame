@@ -354,8 +354,6 @@ namespace TestConsole
                 Console.WriteLine(s);
 
 
-
-
             #region Task 3 Lesson 4
             ///<summary> 
             ///* Дан фрагмент программы:
