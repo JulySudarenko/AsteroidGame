@@ -1,7 +1,0 @@
-C:\Users\July\Desktop\GeekBrains\C#\AsteroidGame\Tests\TestConsole\bin\Debug\TestConsole.exe.config
-C:\Users\July\Desktop\GeekBrains\C#\AsteroidGame\Tests\TestConsole\bin\Debug\TestConsole.exe
-C:\Users\July\Desktop\GeekBrains\C#\AsteroidGame\Tests\TestConsole\bin\Debug\TestConsole.pdb
-C:\Users\July\Desktop\GeekBrains\C#\AsteroidGame\Tests\TestConsole\obj\Debug\TestConsole.csproj.CoreCompileInputs.cache
-C:\Users\July\Desktop\GeekBrains\C#\AsteroidGame\Tests\TestConsole\obj\Debug\TestConsole.exe
-C:\Users\July\Desktop\GeekBrains\C#\AsteroidGame\Tests\TestConsole\obj\Debug\TestConsole.pdb
-C:\Users\July\Desktop\GeekBrains\C#\AsteroidGame\Tests\TestConsole\obj\Debug\TestConsole.csprojAssemblyReference.cache
