@@ -4,9 +4,13 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008" mc:Ignorable="d"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Organization"
+        xmlns:services="clr-namespace:Organization.Services"
         Title="Сотрудник"
         MinHeight="198" MinWidth="390"
         Height="250" Width="400">
+    <Window.Resources>
+        <services:DataManager x:Key="DataManager"></services:DataManager>
+    </Window.Resources>
     <Grid Margin="0,0,0.140,0.200">
         <Grid.RowDefinitions>
             <RowDefinition Height="33*"/>
@@ -25,12 +29,15 @@
         <Label Content="Отчество" Margin="10,0,0,0" FontSize="18" Grid.Row="2" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
         <Label Content="Зарплата" Margin="10,0,0,0" FontSize="18" Grid.Row="3" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
         <Label Content="Подразделение" Margin="10,0,0,0" FontSize="18" Grid.Row="4" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
-        <TextBox Grid.Column="1" Margin="5,3" TextWrapping="Wrap" FontSize="18" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" MinWidth="199" MinHeight="28"/>
-        <TextBox Grid.Column="1" Margin="5,3" TextWrapping="Wrap" FontSize="18" Grid.Row="3" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" MinWidth="199" MinHeight="28"/>
-        <TextBox Grid.Column="1" Margin="5,3" TextWrapping="Wrap" FontSize="18" Grid.Row="2" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" MinWidth="199" MinHeight="28"/>
-        <TextBox Grid.Column="1" Margin="5,3" TextWrapping="Wrap" FontSize="18" Grid.Row="1" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" MinWidth="199" MinHeight="28"/>
+        <TextBox x:Name="TextSurname" Grid.Column="1" Margin="5,3" TextWrapping="Wrap" FontSize="18" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" MinWidth="199" MinHeight="28"/>
+        <TextBox x:Name="TextSalary" Grid.Column="1" Margin="5,3" TextWrapping="Wrap" FontSize="18" Grid.Row="3" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" MinWidth="199" MinHeight="28"/>
+        <TextBox x:Name="TextPatronymic" Grid.Column="1" Margin="5,3" TextWrapping="Wrap" FontSize="18" Grid.Row="2" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" MinWidth="199" MinHeight="28"/>
+        <TextBox x:Name="TextName" Grid.Column="1" Margin="5,3" TextWrapping="Wrap" FontSize="18" Grid.Row="1" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" MinWidth="199" MinHeight="28"/>
         <Button Content="Сохранить" Margin="5,3,5,5" Grid.Row="5" Click="Button_Click" FontSize="18" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Grid.ColumnSpan="2"/>
-        <ComboBox x:Name="DepComboBox" Grid.Column="1" Margin="5,3" Grid.Row="4" VerticalContentAlignment="Center" FontSize="18"/>
+        <ComboBox x:Name="DepComboBox" Grid.Column="1" Margin="5,3" Grid.Row="4" VerticalContentAlignment="Center" FontSize="18"
+            ItemsSource="{Binding AllDepartments, Source={StaticResource DataManager}}"
+                    Text="{Binding NameDep}">
+        </ComboBox>
 
     </Grid>
 </Window>

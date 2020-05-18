@@ -5,6 +5,8 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using DataBaseTest.Data;
+using Organization.Services;
 using Organization;
 using Organization.Models;
 
@@ -16,21 +18,30 @@ namespace Organization
     public partial class NewEmploee : Window
     {
 
-        public NewEmploee(List<Employee> AllEmployees, List<string> AllDepartments)
+        public NewEmploee()
         {
             InitializeComponent();
-            FillComboDox(AllDepartments);
         }
 
-        void FillComboDox(List<string> AllDepartments)
-        {
-            DepComboBox.ItemsSource = AllDepartments;
-        }
+        //void FillComboDox(List<string> AllDepartments)
+        //{
+        //    DepComboBox.ItemsSource = AllDepartments;
+        //}
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            Random rnd = new Random();
-            //AllEmployees.Add(new Employee());
+            using (var db = new OrgDB())
+            {
+                Employee Employee = new Employee();
+
+                Employee.Surname = TextSurname.Text;
+                Employee.Name = TextName.Text;
+                Employee.Patronymic = TextSurname.Text;
+                //Employee.Salary = double.TryParse($"{TextSalary.Text}");
+                //Employee.Department = DepComboBox.Text;
+                db.Employees.Add(Employee);
+                db.SaveChanges();
+            }
             MessageBox.Show("Сотрудник добавлен");
         }
     }

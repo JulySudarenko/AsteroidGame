@@ -16,7 +16,6 @@
     </Window.DataContext>
     <Window.Resources>
         <services:DataManager x:Key="DataManager"></services:DataManager>
-
     </Window.Resources>
     <DockPanel>
         <Menu DockPanel.Dock="Top" FontSize="16">

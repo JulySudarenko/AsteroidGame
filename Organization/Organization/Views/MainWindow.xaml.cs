@@ -1,13 +1,5 @@
-﻿using System;
-using System.IO;
-using System.Collections.Generic;
-using System.Windows;
-using Organization.Models;
-using Organization.Services;
-using System.Data;
-using System.Data.SqlClient;
-using Microsoft.Win32;
-using System.Collections.ObjectModel;
+﻿using System.Windows;
+
 
 
 //July Sudarenko
@@ -38,11 +30,9 @@ namespace Organization
             //FillList();
         }
 
-        public static readonly List<string> AllDepartments = new List<string>();
-        public static readonly List<Employee> AllEmployees = new List<Employee>();
         private void NewEmployeeButton_Click(object sender, RoutedEventArgs e)
         {
-            Organization.NewEmploee NewEmploee = new NewEmploee(AllEmployees, AllDepartments);
+            Organization.NewEmploee NewEmploee = new NewEmploee();
             NewEmploee.Show();
             NewEmploee.Owner = this;
         }
