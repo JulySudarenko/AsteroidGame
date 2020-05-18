@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using System.Windows;
 using Organization.Models;
 using Organization.Services;
+using System.Data;
+using System.Data.SqlClient;
 using Microsoft.Win32;
 using System.Collections.ObjectModel;
 

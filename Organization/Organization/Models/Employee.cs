@@ -8,76 +8,89 @@ using System.ComponentModel;
 
 namespace Organization.Models
 {
-    public class Employee : INotifyPropertyChanged //IComparable<Employee>, IEquatable<string>, IEquatable<Employee>
+    public class Employee// : INotifyPropertyChanged //IComparable<Employee>, IEquatable<string>, IEquatable<Employee>
     {
-        public event PropertyChangedEventHandler PropertyChanged;
-
         public int Id { get; set; }
-        private string _Surname;
-        private string _Name;
-        private string _Patronymic;
-        private double _Salary;
+
+        public string Surname { get; set; }
+
+        public string Name { get; set; }
+
+        public string Patronymic { get; set; }
+
+        public double Salary { get; set; }
+
         public Department Department { get; set; }
 
-        public string Surname
-        {
-            get => _Surname;
-            set
-            {
-                if (_Surname == value) return;
-                _Surname = value;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Surname)));
-            }
-        }
+        //public event PropertyChangedEventHandler PropertyChanged;
 
-        public string Name
-        {
-            get => _Name;
-            set
-            {
-                if (_Name == value) return;
-                _Name = value;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Name)));
-            }
-        }
+        //public int Id { get; set; }
+        //public string _Surname;
+        //public string _Name;
+        //public string _Patronymic;
+        //public float _Salary;
+        //public virtual Department Department { get; set; }
 
-        public string Patronymic
-        {
-            get => _Patronymic;
-            set
-            {
-                if (_Patronymic == value) return;
-                _Patronymic = value;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Patronymic)));
-            }
-        }
+        //public string Surname
+        //{
+        //    get => _Surname;
+        //    set
+        //    {
+        //        if (_Surname == value) return;
+        //        _Surname = value;
+        //        PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Surname)));
+        //    }
+        //}
 
-        public double Salary
-        {
-            get => _Salary;
-            set
-            {
-                if (_Salary == value) return;
-                _Salary = value;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Salary)));
-            }
-        }
+        //public string Name
+        //{
+        //    get => _Name;
+        //    set
+        //    {
+        //        if (_Name == value) return;
+        //        _Name = value;
+        //        PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Name)));
+        //    }
+        //}
+
+        //public string Patronymic
+        //{
+        //    get => _Patronymic;
+        //    set
+        //    {
+        //        if (_Patronymic == value) return;
+        //        _Patronymic = value;
+        //        PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Patronymic)));
+        //    }
+        //}
+
+        //public float Salary
+        //{
+        //    get => _Salary;
+        //    set
+        //    {
+        //        if (_Salary == value) return;
+        //        _Salary = value;
+        //        PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Salary)));
+        //    }
+        //}
 
         public override string ToString() => $"[{Id}] {Surname} \t{Name}\t{Patronymic}\t{Salary}\t{Department}";
 
-        public Employee(string Surname, string Name, string Patronymic)
-        {
-            Random rnd = new Random();
+        //public Employee(int Id, string Surname, string Name, string Patronymic, float Salary, Department Department)
+        //{
 
-            this.Surname = Surname;
-            this.Name = Name;
-            this.Patronymic = Patronymic;
-            Salary = rnd.Next(20, 300) * 1000;
-        }
+        //    this.Id = Id;
+        //    this._Surname = Surname;
+        //    this._Name = Name;
+        //    this._Patronymic = Patronymic;
+        //    this._Salary = Salary;
+        //    this.Department = Department;
+        //}
 
-        public Employee()
-        {
-        }
+        //public Employee()
+        //{
+        //}
 
         //public static string NameDepForEmployee(Employee employee, Department department)
         //{

@@ -3,6 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008" mc:Ignorable="d"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:data="clr-namespace:System.Data;assembly=System.Data"
         xmlns:local="clr-namespace:Organization"
         xmlns:vm="clr-namespace:Organization.ViewModels"
         xmlns:models="clr-namespace:Organization.Models"
@@ -15,6 +16,7 @@
     </Window.DataContext>
     <Window.Resources>
         <services:DataManager x:Key="DataManager"></services:DataManager>
+
     </Window.Resources>
     <DockPanel>
         <Menu DockPanel.Dock="Top" FontSize="16">
