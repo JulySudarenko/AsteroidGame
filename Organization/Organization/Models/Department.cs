@@ -23,7 +23,7 @@ namespace Organization.Models
         //public virtual ICollection<Employee> Employees { get; set; } = new List<Employee>();
 
 
-        public override string ToString() => $"[{Id}] {NameDep}";
+        public override string ToString() => NameDep;// $"[{Id}] {NameDep}";
 
         //public string NameDep
         //{

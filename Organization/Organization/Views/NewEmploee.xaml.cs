@@ -37,8 +37,8 @@ namespace Organization
                 Employee.Surname = TextSurname.Text;
                 Employee.Name = TextName.Text;
                 Employee.Patronymic = TextSurname.Text;
-                //Employee.Salary = double.TryParse($"{TextSalary.Text}");
-                //Employee.Department = DepComboBox.Text;
+                Employee.Salary = double.Parse(TextSalary.Text);
+                //Employee.Department.NameDep = DepComboBox.Text;
                 db.Employees.Add(Employee);
                 db.SaveChanges();
             }
