@@ -1,15 +1,105 @@
 ﻿using DataBaseTest.Data;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.IO;
 using System.Linq;
+using DataBaseTest.Data.Entities;
 
 
 namespace DataBaseTest
 {
+
     class Program
     {
+
+        private static string FileDep = "..\\..\\Data\\Department.txt";
+        private static string FileEmp = "..\\..\\Data\\Employee.txt";
+
         static void Main(string[] args)
+        {
+            DBCheckEmployee();
+
+            //List<string> AllDepList = DepListCreate(FileDep);
+            //List<Employee> AllEmpList = CreateOrg(FileEmp, AllDepList);
+
+            //ImportEmp(AllEmpList, AllDepList);
+
+            EmployeeFromDepartment();
+
+            List<Department> AllDep = AllOrgDep();
+            List<Employee> AllEmp = AllOrgEmp();
+
+            Console.ReadLine();
+        }
+
+        private static List<Department> AllOrgDep()
+        {
+            List<Department> deplist = new List<Department>();
+
+            using (var db = new OrgDB())
+            {
+                db.Database.Log = str => Console.WriteLine("EF>> {0}", str);
+
+                var dep = db.Departments;
+                foreach (var d in dep)
+                    deplist.Add(d);
+            }
+
+            return deplist;
+        }
+
+        private static List<Employee> AllOrgEmp()
+        {
+            List<Employee> emplist = new List<Employee>();
+
+            using (var db = new OrgDB())
+            {
+                db.Database.Log = str => Console.WriteLine("EF>> {0}", str);
+
+                var emp = db.Employees;
+                foreach (var e in emp)
+                    emplist.Add(e);
+            }
+
+            return emplist;
+        }
+
+
+
+        private static void EmployeeFromDepartment()
+        {
+            using (var db = new OrgDB())
+            {
+                db.Database.Log = str => Console.WriteLine("EF>> {0}", str);
+
+                var Dep = db.Employees
+                   .Include(employee => employee.Department)
+                   .Where(employee => employee.Department.Id == 130).ToArray();
+
+                Console.WriteLine(Dep[1].Department.NameDep);
+
+            }
+        }
+
+        private static void DepChoice()
+        {
+            using (var db = new OrgDB())
+            {
+                db.Database.Log = str => Console.WriteLine("EF>> {0}", str);
+
+                var Dep_1 = db.Employees
+                   .Include(employee => employee.Department)
+                   .Where(employee => employee.Department.Id == 130).ToArray();
+
+                Console.ReadLine();
+
+                Console.WriteLine(Dep_1[0].Department.NameDep);
+
+            }
+        }
+
+        public static void DBCheckEmployee()
         {
             using (var db = new OrgDB())
             {
@@ -18,105 +108,11 @@ namespace DataBaseTest
                 var students_count = db.Employees.Count();
 
                 Console.WriteLine("Emploees in DB: {0}", students_count);
-
             }
-
-
-
-
-            Console.ReadLine();
         }
 
-        //private static void Import(string FileName)
-        //{
-        //    using (var db = new OrgDB())
-        //        if (!db.Employees.Any())
-        //        {
-        //        }
 
-        //}
-        //private static List<Employee> CreateOrg(string FileName1, List<string> list)
-        //{
-        //    List<Employee> employees = new List<Employee>();
-
-        //    if (list.Count == 0) return employees;
-
-        //    var rnd = new Random();
-        //    int n = 1;
-
-        //    using (var file1 = File.OpenText(FileName1))
-        //    {
-        //        while (!file1.EndOfStream)
-        //        {
-        //            var line = file1.ReadLine();
-
-        //            if (string.IsNullOrWhiteSpace(line)) continue;
-
-        //            var components = line.Split(' ');
-        //            if (components.Length != 3) continue;
-
-        //            var employee = new Employee();
-        //            employee.Id = n++;
-        //            employee.Surname = components[0];
-        //            employee.Name = components[1];
-        //            employee.Patronymic = components[2];
-        //            employee.Salary = rnd.Next(20, 300) * 1000;
-        //            int v = rnd.Next(1, list.Count + 1) - 1;
-        //            employee.Department = new Department();
-        //            employee.Department.Id = v;
-        //            employee.Department.NameDep = list[v];
-        //            employees.Add(employee);
-        //        }
-        //    }
-        //    return employees;
-        //}
-        //        var student_n = 1;
-        //        for (var group_n = 1; group_n <= 10; group_n++)
-        //        {
-        //            var group = new StudentsGroup
-        //            {
-        //                Name = $"Group {group_n}"
-        //            };
-
-        //            for (var i = 0; i < 10; i++)
-        //            {
-        //                var student = new Student
-        //                {
-        //                    Name = $"Student {student_n}",
-        //                    Surname = $"Surname {student_n}",
-        //                    Patronymic = $"Patronymic {student_n}",
-        //                };
-        //                group.Students.Add(student);
-        //                student_n++;
-
-        //                //db.Students.Add(student); // в этом нет необходимости!
-        //            }
-
-        //            db.Groups.Add(group);
-        //        }
-
-        //        db.Database.Log = str => Console.WriteLine("EF>> {0}", str);
-        //        db.SaveChanges();
-        //    }
-
-
-        //using (var db = new StudentsDB())
-        //{
-        //    db.Database.Log = str => Console.WriteLine("EF>> {0}", str);
-
-        //    var students_group_id_7 = db.Students
-        //       //.Include(student => student.Group)
-        //       .Where(student => student.Group.Id == 7).ToArray();
-
-        //    Console.ReadLine();
-
-        //    Console.WriteLine(students_group_id_7[0].Group.Name);
-        //}
-
-
-
-
-        private static List<string> DepListCreate(string FileName)
+        public static List<string> DepListCreate(string FileName)
         {
             List<string> list = new List<string>();
 
@@ -133,5 +129,81 @@ namespace DataBaseTest
             }
             return list;
         }
+
+        private static void ImportEmp(List<Employee> list, List<string> dep)
+        {
+            int n = 0;
+            if (list.Count == 0 || dep.Count == 0)
+                return;
+            using (var db = new OrgDB())
+            {
+                if (!db.Departments.Any())
+
+                    for (int i = 0; i < dep.Count; i++)
+                    {
+
+                        var department = new Department();
+                        {
+                            department.NameDep = dep[i];
+                        };
+
+                        for (int j = 0; j < 4; j++)
+                        {
+                            var employee = new Employee();
+                            {
+                                employee.Surname = list[n].Surname;
+                                employee.Name = list[n].Name;
+                                employee.Patronymic = list[n].Patronymic;
+                                employee.Salary = list[n].Salary;
+                            };
+                            department.Employees.Add(employee);
+                            n++;
+                        }
+                        db.Departments.Add(department);
+                    }
+                db.Database.Log = str => Console.WriteLine("EF>> {0}", str);
+                db.SaveChanges();
+            }
+
+        }
+
+        private static List<Employee> CreateOrg(string FileName1, List<string> list)
+        {
+            List<Employee> employees = new List<Employee>();
+
+            if (list.Count == 0) return employees;
+
+            var rnd = new Random();
+            int n = 1;
+
+            using (var file1 = File.OpenText(FileName1))
+            {
+                while (!file1.EndOfStream)
+                {
+                    var line = file1.ReadLine();
+
+                    if (string.IsNullOrWhiteSpace(line)) continue;
+
+                    var components = line.Split(' ');
+                    if (components.Length != 3) continue;
+
+                    var employee = new Employee();
+                    employee.Id = n++;
+                    employee.Surname = components[0];
+                    employee.Name = components[1];
+                    employee.Patronymic = components[2];
+                    employee.Salary = rnd.Next(20, 300) * 1000;
+                    int v = rnd.Next(1, list.Count + 1) - 1;
+                    employee.Department = new Department();
+                    employee.Department.Id = v;
+                    employee.Department.NameDep = list[v];
+                    employees.Add(employee);
+                }
+            }
+            return employees;
+        }
+
+
+
     }
 }
