@@ -1,15 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
+﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Runtime.Serialization;
-using System.Xml.Serialization;
+using System.ServiceModel;
 
-
-namespace OrgDBHosting.Interface.Data.Entity
+namespace FileHosting.Interfaces.DataModels
 {
     [DataContract]
-    [Serializable]
-    public class Department : ISerializable
+    public class Department
     {
         [DataMember]
         public int Id { get; set; }
@@ -20,14 +17,9 @@ namespace OrgDBHosting.Interface.Data.Entity
         [DataMember]
         public virtual ICollection<Employee> Employees { get; set; } = new List<Employee>();
 
-        Department()
+        [DataContractFormat]
+        public static Department[] GetDepartments()
         {
-
-        }
-
-        public void GetObjectData(SerializationInfo info, StreamingContext context)
-        {
-            var xml_serializer = new XmlSerializer(typeof(Department));
             List<Department> deplist = new List<Department>();
             using (var db = new OrgDB())
             {
@@ -35,11 +27,10 @@ namespace OrgDBHosting.Interface.Data.Entity
                 foreach (var department in alldep)
                     deplist.Add(department);
             }
-            using (var xml_file = File.Create("department.xml"))
-            {
-                foreach (var d in deplist)
-                    xml_serializer.Serialize(xml_file, d);
-            }
+
+            return deplist.ToArray();
         }
+
     }
+
 }

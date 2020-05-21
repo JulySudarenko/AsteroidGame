@@ -1,24 +1,27 @@
-﻿using OrgDBHosting.Interface.Data;
+﻿using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+using System.Data.Common;
 using System.Data.Entity;
+using System.Data.Entity.Infrastructure.MappingViews;
 using System.Runtime.Serialization;
-
 using System.ServiceModel;
 
-namespace OrgDBHosting.Interface.Data
+namespace FileHosting.Interfaces.DataModels
 {
-    [DataContract]
+
     public class OrgDB : DbContext
     {
-        [DataMember]
+
         public DbSet<Employee> Employees { get; set; }
 
-        [DataMember]
+
         public DbSet<Department> Departments { get; set; }
 
+        
         public OrgDB() : this("name=OrgDB") { }
-
+        
         public OrgDB(string ConnectionString) : base(ConnectionString) { }
 
     }
-
 }

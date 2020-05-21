@@ -4,6 +4,7 @@ using System.ServiceModel;
 using System.ServiceModel.Channels;
 using FileHosting;
 using FileHosting.Interfaces;
+using FileHosting.Interfaces.DataModels;
 
 namespace ConsoleClient
 {
@@ -22,6 +23,11 @@ namespace ConsoleClient
 
             client.StartProcess("calc", "");
 
+            var dep = client.GetDep();
+
+            foreach (var d in dep)
+                Console.WriteLine(d);
+
             Console.ReadLine();
         }
     }
@@ -39,6 +45,10 @@ namespace ConsoleClient
         public DirectoryInfo[] GetDirectories(string Path) => Channel.GetDirectories(Path);
 
         public int StartProcess(string Path, string Args) => Channel.StartProcess(Path, Args);
+
+        public Department[] GetDep() => Channel.GetDep();
+
     }
+
 
 }

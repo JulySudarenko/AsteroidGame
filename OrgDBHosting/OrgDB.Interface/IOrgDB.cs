@@ -1,4 +1,6 @@
-﻿using System.ServiceModel;
+﻿using OrgDBHosting.Interface.Data;
+using System.Collections.Generic;
+using System.ServiceModel;
 
 
 namespace OrgDBHosting.Interface
@@ -7,10 +9,10 @@ namespace OrgDBHosting.Interface
     public interface IOrgDB
     {
 
-        [OperationContract]
-        void GetEmployees();
+        //[OperationContract]
+        //void GetEmployees();
 
         [OperationContract]
-        void GetDepartments();
+        Department[] GetDepartments();
     }
 }

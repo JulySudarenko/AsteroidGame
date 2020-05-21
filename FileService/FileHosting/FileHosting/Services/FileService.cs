@@ -3,6 +3,7 @@ using System.Diagnostics;
 using System.IO;
 using System.ServiceModel;
 using FileHosting.Interfaces.DataModels;
+using System.Collections.Generic;
 
 namespace FileHosting.Services
 {
@@ -29,6 +30,11 @@ namespace FileHosting.Services
             var process = Process.Start(Path, Args);
 
             return process?.Id ?? -1;
+        }
+
+        public Department[] GetDep()
+        {
+            return FileHosting.Interfaces.DataModels.Department.GetDepartments();
         }
     }
 }

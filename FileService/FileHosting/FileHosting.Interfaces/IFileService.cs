@@ -24,7 +24,8 @@ namespace FileHosting
         [OperationContract]
         int StartProcess(string Path, string Args);
 
-        //StudentInfo[] GetStudents();
+        [OperationContract]
+        Department[] GetDep();
     }
 
 }

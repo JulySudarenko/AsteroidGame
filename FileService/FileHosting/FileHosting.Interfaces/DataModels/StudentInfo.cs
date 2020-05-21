@@ -16,5 +16,4 @@ namespace FileHosting.Interfaces.DataModels
         [DataMember]
         public DateTime Birthday { get; set; }
     }
-
 }
