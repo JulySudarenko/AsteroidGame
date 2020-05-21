@@ -16,7 +16,7 @@
         </Grid.RowDefinitions>
         <Button Content="Добавить" Margin="5,3,5,5" Grid.Row="2" Padding="1" FontSize="18" MinWidth="199" MinHeight="28" Click="Button_Click"/>
         <Label Content="Новое подразделение" Margin="5,5,5,3" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="18" Padding="0" MinWidth="199" MinHeight="28"/>
-        <TextBox Margin="5,3" Grid.Row="1" TextWrapping="Wrap" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="18" MinWidth="199" MinHeight="28"/>
+        <TextBox x:Name="TetxDep" Margin="5,3" Grid.Row="1" TextWrapping="Wrap" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="18" MinWidth="199" MinHeight="28"/>
 
     </Grid>
 </Window>
