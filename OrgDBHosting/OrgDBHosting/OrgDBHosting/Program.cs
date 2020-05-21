@@ -2,11 +2,12 @@
 using System.ServiceModel;
 using System.ServiceModel.Description;
 using OrgDBHosting.Services;
-using OrgDBHosting.Data.Entity;
-using OrgDBHosting.Data;
+using OrgDBHosting.Interface.Data.Entity;
+using OrgDBHosting.Interface.Data;
 using OrgDBHosting.Interface;
 using System.Xml.Serialization;
 using System.IO;
+using System.Collections.Generic;
 
 namespace OrgDBHosting
 {
@@ -42,24 +43,28 @@ namespace OrgDBHosting
             //        host.AddServiceEndpoint(typeof(IMetadataExchange), MetadataExchangeBindings.CreateMexNamedPipeBinding(), "mex");
 
             //        host.Open();
-            GetDepartments();
+            GetObjectData();
 
             Console.ReadLine();
         }
 
-        public static void GetDepartments()
-        {
-            var xml_serializer = new XmlSerializer(typeof(Department));
-            //List<Department> deplist = new List<Department>();
-            using (var db = new OrgDB())
-            using (var xml_file = File.Create("department.xml"))
-            {
-                //var dep = db.Departments;
-                foreach (var d in db.Departments)
-                    xml_serializer.Serialize(xml_file, d);
-                //deplist.Add(d);
-            }
+        //public static void GetDepartments()
+        //{
+        //    var xml_serializer = new XmlSerializer(typeof(Department));
+        //    List<Department> deplist = new List<Department>();
+        //    using (var db = new OrgDB())
+        //    {
+        //        var alldep = db.Departments;
+        //        foreach (var department in alldep)
+        //            deplist.Add(department);
+        //    }
+        //    using (var xml_file = File.Create("department.xml"))
+        //    {
+        //        foreach (var d in deplist)
+        //            xml_serializer.Serialize(xml_file, d);
+        //    }
+        //}
 
-        }
+        
     }
 }

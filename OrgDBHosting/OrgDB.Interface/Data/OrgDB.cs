@@ -3,7 +3,7 @@ using System.Data.Entity;
 using System.Runtime.Serialization;
 using System.ServiceModel;
 
-namespace OrgDBHosting.Data
+namespace OrgDBHosting.Interface.Data
 {
     public class OrgDB : DbContext
     {

@@ -53,8 +53,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Data\Department.cs" />
-    <Compile Include="Data\Employee.cs" />
+    <Compile Include="Data\Entity\Department.cs" />
+    <Compile Include="Data\Entity\Employee.cs" />
+    <Compile Include="Data\OrgDB.cs" />
     <Compile Include="IOrgDB.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

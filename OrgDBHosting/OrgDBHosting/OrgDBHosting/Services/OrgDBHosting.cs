@@ -3,8 +3,8 @@ using System.IO;
 using System.ServiceModel;
 using System.Xml.Serialization;
 using OrgDBHosting.Interface;
-using OrgDBHosting.Data.Entity;
-using OrgDBHosting.Data;
+using OrgDBHosting.Interface.Data.Entity;
+using OrgDBHosting.Interface.Data;
 
 namespace OrgDBHosting.Services
 {

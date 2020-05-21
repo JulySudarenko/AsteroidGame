@@ -1,6 +1,4 @@
-﻿using OrgDBHosting.Interface.Data.Entity;
-using OrgDBHosting;
-using System.ServiceModel;
+﻿using System.ServiceModel;
 
 
 namespace OrgDBHosting.Interface
